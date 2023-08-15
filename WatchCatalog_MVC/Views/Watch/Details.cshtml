@@ -1,0 +1,46 @@
+﻿@using WatchCatalog_MVC.ViewModels;
+@model WatchDetailsViewModel
+
+
+<div style="display: flex; width: 100vw; column-gap: 10vw; justify-content: center">
+    <img src="@Model.Image" style="height: 70vh" />
+    <div>
+        <h1>@Model.WatchId @Model.WatchName</h1>
+        <h3>@Model.Short_description</h3>
+        <p>@Model.Price</p>
+        <p>@Model.Caliber</p>
+        <p>@Model.Strap</p>
+        <p>@Model.Jewel</p>
+        <p>@Model.Case</p>
+        <p>@Model.Chronograph</p>
+        <p>@Model.Diameter</p>
+        <p>@Model.Weight</p>
+        <p>@Model.Height</p>
+        <p>@Model.Thickness</p>
+        <p>@Model.Full_Description</p>
+    </div>
+</div>
+<button id="btnToggle" class="@Model.ToggleButtonClass()">@Model.ToggleButtonName()</button>
+<a asp-action="Index" class="btn btn-primary">Back</a>
+
+@section Scripts{
+    <script>
+        $(() => {
+            $("#btnToggle").click(() => {
+                $.ajax({
+                    type: 'POST',
+                    url: '/togglewatch',
+                    data: JSON.stringify({ watchId: @Model.WatchId, isActive: @Model.IsActive.ToString().ToLower()}),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: (result) => {
+                        location.reload(true);
+                    },
+                    error: (err) => {
+                        alert(JSON.stringify(err))
+                    }
+                })
+            })
+        })
+    </script>
+}

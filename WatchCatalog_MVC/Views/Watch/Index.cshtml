@@ -1,1 +1,54 @@
-﻿<h1>This is Watch Home</h1>
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div>
+
+    <section id="hero" style="background-color: red; width: 100vw; height: 100vh">
+        This is Hero Section
+    </section>
+    <section id="carousel" style="background-color: blue; width: 100vw;  height: 35vh">
+        This is Carousel Section
+    </section>
+    <section id="watches" style="width: 100vw; height: 20vh">
+        <div id="watchesContainer" style="display: flex">
+        </div>
+
+    </section>
+</div>
+<a asp-action=""></a>
+
+    @section Scripts{
+    <script>
+        $(() => {
+            $.ajax({
+                url: '@Url.Action("getwatches")',
+                method: "GET",
+                beforeSend: () => {
+                    $("#watchesContainer").empty()
+                    $("#watchesContainer").html("Loading...")
+                },
+                success: (res) => {
+                    $("#watchesContainer").empty()
+                    $.each(res, (key, value) => {
+                        var createCard = (value) => {
+                            var cardBody = $("<div>").addClass("card").css("width", "100px").css({ "height": "100px", "cursor": "pointer"})
+                            var image = $(`<img src='${value.image}' />`)
+                            cardBody.click(() => {
+                                window.location.href = `@Url.Action("Details")/${value.watchId}`
+                            })
+
+                            return cardBody.append(image)
+                        }
+                        $("#watchesContainer").append(createCard(value))
+                    })
+                }
+            }).done(function (response) {
+                console.log(response);
+            });
+        })
+    </script>
+}
+
