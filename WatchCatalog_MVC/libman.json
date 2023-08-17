@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "sweetalert2@11.7.23",
+      "destination": "wwwroot/lib/sweetalert2/"
+    },
+    {
+      "library": "filepond@4.30.4",
+      "destination": "wwwroot/lib/filepond/"
+    }
+  ,
+{
+  "provider": "cdnjs",
+  "library": "filepond@4.30.4",
+  "destination": "wwwroot/lib/filepond/"
+}
+]
+}

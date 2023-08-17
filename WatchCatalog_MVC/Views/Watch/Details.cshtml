@@ -22,12 +22,158 @@
 </div>
 <button id="btnToggle" class="@Model.ToggleButtonClass()">@Model.ToggleButtonName()</button>
 <a asp-action="Index" class="btn btn-primary">Back</a>
+<button class="btn btn-warning" id="btnUpdate">Update</button>
+<template id="my-template">
+    <swal-title>
+        @Model.WatchName
+    </swal-title>
+    <swal-html>
+        <form id="formUpdate">
+            <img id="imageUpdate" src="@Model.Image" style="height: 70vh" />
+            <input type="file"
+                   id="imageFile"
+                   data-max-file-size="3MB"
+                   data-max-files="3"
+                   accept="image/png, image/jpeg, image/gif" />
+            <input type="text" asp-for="WatchName" />
+            <span asp-validation-for="WatchName" class="text-danger"></span>
+            <input type="text" asp-for="Short_description" />
+            <span asp-validation-for="Short_description" class="text-danger"></span>
+            <input type="text" asp-for="Price" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+            <input type="text" asp-for="Caliber" />
+            <span asp-validation-for="Caliber" class="text-danger"></span>
+            <input type="text" asp-for="Strap" />
+            <span asp-validation-for="Strap" class="text-danger"></span>
+            <input type="text" asp-for="Jewel" />
+            <span asp-validation-for="Strap" class="text-danger"></span>
+            <input type="text" asp-for="Case" />
+            <span asp-validation-for="Case" class="text-danger"></span>
+            <input type="text" asp-for="Chronograph" />
+            <span asp-validation-for="Chronograph" class="text-danger"></span>
+            <input type="text" asp-for="Diameter" />
+            <span asp-validation-for="Diameter" class="text-danger"></span>
+            <input type="text" asp-for="Weight" />
+            <span asp-validation-for="Weight" class="text-danger"></span>
+            <input type="text" asp-for="Height" />
+            <span asp-validation-for="Height" class="text-danger"></span>
+            <input type="text" asp-for="Thickness" />
+            <span asp-validation-for="Thickness" class="text-danger"></span>
+            <input type="text" asp-for="Full_Description" />
+            <span asp-validation-for="Full_Description" class="text-danger"></span>
+        </form>
+    </swal-html>
+    <swal-button type="confirm">
+        Save
+    </swal-button>
+    <swal-button type="cancel">
+        Cancel
+    </swal-button>
+    <swal-param name="allowEscapeKey" value="false" />
+    <swal-param name="showLoaderOnConfirm" value="true" />
+    <swal-param name="customClass"
+                value='{ "popup": "my-popup" }' />
+    <swal-function-param name="didOpen"
+                         value="popup => console.log(popup)" />
+</template>
 
 @section Scripts{
     <script>
         $(() => {
-            $("#btnToggle").click(() => {
-                $.ajax({
+            $("#btnUpdate").click(() => {
+                Swal.fire({
+                    template: '#my-template',
+                    preConfirm: async () => {
+                        console.log($("#formUpdate").valid())
+                        $("#formUpdate").submit();
+
+
+
+                        //     var form = new FormData();
+                        //     form.append("image", imageFile.files[0]);
+                        //     form.append("watchname", "bank");
+                        //     form.append("case", "asd");
+                        //     form.append("jewel", "test");
+                        //     form.append("strap", "test");
+                        //     form.append("caliber", "test");
+                        //     form.append("full_description", "test");
+                        //     form.append("short_description", "test");
+                        //     form.append("watchId", "1");
+                        //     form.append("Chronograph", "Simple Chronograph");
+
+                        //     var settings = {
+                        //         "url": "https://localhost:7147/updatewatch",
+                        //         "method": "PUT",
+                        //         "timeout": 0,
+                        //         "processData": false,
+                        //         "mimeType": "multipart/form-data",
+                        //         "contentType": false,
+                        //         "data": form
+                        //     };
+
+                        //     $.ajax(settings).done(function (response) {
+                        //         console.log(response);
+                        //     });
+                        // await $.ajax({
+                        //     type: 'PUT',
+                        //     url: '/updatewatch',
+                        //     async: true,
+                        //     success: (result) => {
+
+                        //     },
+                        //     error: (err) => {
+                        //         alert(JSON.stringify(err))
+                        //     }
+                        // })
+                    }
+                })
+            })
+
+            Swal.getPopup().querySelector("#formUpdate").submit((event) => {
+                alert("Hello")
+                // event.preventDefault()
+                // var form = new FormData();
+                // form.append("image", imageFile.files[0]);
+                // form.append("watchname", "bank");
+                // form.append("case", "asd");
+                // form.append("jewel", "test");
+                // form.append("strap", "test");
+                // form.append("caliber", "test");
+                // form.append("full_description", "test");
+                // form.append("short_description", "test");
+                // form.append("watchId", "1");
+                // form.append("Chronograph", "Simple Chronograph");
+
+                // var settings = {
+                //     "url": "https://localhost:7147/updatewatch",
+                //     "method": "PUT",
+                //     "timeout": 0,
+                //     "processData": false,
+                //     "mimeType": "multipart/form-data",
+                //     "contentType": false,
+                //     "data": form
+                // };
+
+                // $.ajax(settings).done(function (response) {
+                //     console.log(response);
+                // });
+
+
+                // $.ajax({
+                //     type: 'PUT',
+                //     url: '/updatewatch',
+                //     async: true,
+                //     success: (result) => {
+
+                //     },
+                //     error: (err) => {
+                //         alert(JSON.stringify(err))
+                //     }
+                // })
+            })
+
+            $("#btnToggle").click(async () => {
+                await $.ajax({
                     type: 'POST',
                     url: '/togglewatch',
                     data: JSON.stringify({ watchId: @Model.WatchId, isActive: @Model.IsActive.ToString().ToLower()}),

@@ -53,5 +53,11 @@ namespace WatchCatalog_MVC.Controllers
 
             return Ok(modifiedWatch);
         }
+
+        [HttpPut("updatewatch")]
+        public async Task<IActionResult> Update([FromForm]UpdateWatchDTO watch)
+        {
+            return NoContent();
+        }
     }
 }

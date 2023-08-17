@@ -1,15 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace WatchCatalog_MVC.ViewModels
+namespace WatchCatalog_MVC.DTOs
 {
-    public class WatchDetailsViewModel
+    public class UpdateWatchDTO
     {
+        [Required]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Id must be numeric")]
         public int WatchId { get; set; }
 
-        public string Image { get; set; } = null!;
+        public IFormFile? Image { get; set; }
 
-        [Required]
         [StringLength(20)]
         public string WatchName { get; set; } = null!;
         [StringLength(50)]
@@ -43,10 +44,6 @@ namespace WatchCatalog_MVC.ViewModels
         public string Strap { get; set; } = null!;
 
         [Required]
-        public bool IsActive { get; set; }
-
-        public string ToggleButtonName() => IsActive ? "Disable" : "Enable";
-
-        public string ToggleButtonClass() => IsActive ? "btn btn-danger" : "btn btn-success";
+        public bool? IsActive { get; set; }
     }
 }

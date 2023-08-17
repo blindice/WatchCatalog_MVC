@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
@@ -20,10 +19,10 @@
 </div>
 <a asp-action=""></a>
 
-    @section Scripts{
+@section Scripts{
     <script>
-        $(() => {
-            $.ajax({
+        $(async () => {
+            await $.ajax({
                 url: '@Url.Action("getwatches")',
                 method: "GET",
                 beforeSend: () => {
@@ -34,7 +33,7 @@
                     $("#watchesContainer").empty()
                     $.each(res, (key, value) => {
                         var createCard = (value) => {
-                            var cardBody = $("<div>").addClass("card").css("width", "100px").css({ "height": "100px", "cursor": "pointer"})
+                            var cardBody = $("<div>").addClass("card").css("width", "100px").css({ "height": "100px", "cursor": "pointer" })
                             var image = $(`<img src='${value.image}' />`)
                             cardBody.click(() => {
                                 window.location.href = `@Url.Action("Details")/${value.watchId}`
