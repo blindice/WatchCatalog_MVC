@@ -44,6 +44,6 @@ namespace WatchCatalog_MVC.DTOs
         public string Strap { get; set; } = null!;
 
         [Required]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }
