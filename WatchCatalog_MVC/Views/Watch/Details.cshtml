@@ -22,43 +22,9 @@
 </div>
 <button id="btnToggle" class="@Model.ToggleButtonClass()">@Model.ToggleButtonName()</button>
 <a asp-action="Index" class="btn btn-primary">Back</a>
-<button id="btnUpdate"  class="btn btn-warning">Update</button>
+<button id="btnUpdate" class="btn btn-warning">Update</button>
 
-<form id="formUpdate">
-    <img id="imageUpdate" src="@Model.Image" style="height: 70vh" />
-    <input type="file"
-           id="imageFile"
-           data-max-file-size="3MB"
-           data-max-files="3"
-           accept="image/png, image/jpeg, image/gif" />
-    <input type="text" asp-for="WatchName" />
-    <span asp-validation-for="WatchName" class="text-danger"></span>
-    <input type="text" asp-for="Short_description" />
-    <span asp-validation-for="Short_description" class="text-danger"></span>
-    <input type="text" asp-for="Price" />
-    <span asp-validation-for="Price" class="text-danger"></span>
-    <input type="text" asp-for="Caliber" />
-    <span asp-validation-for="Caliber" class="text-danger"></span>
-    <input type="text" asp-for="Strap" />
-    <span asp-validation-for="Strap" class="text-danger"></span>
-    <input type="text" asp-for="Jewel" />
-    <span asp-validation-for="Strap" class="text-danger"></span>
-    <input type="text" asp-for="Case" />
-    <span asp-validation-for="Case" class="text-danger"></span>
-    <input type="text" asp-for="Chronograph" />
-    <span asp-validation-for="Chronograph" class="text-danger"></span>
-    <input type="text" asp-for="Diameter" />
-    <span asp-validation-for="Diameter" class="text-danger"></span>
-    <input type="text" asp-for="Weight" />
-    <span asp-validation-for="Weight" class="text-danger"></span>
-    <input type="text" asp-for="Height" />
-    <span asp-validation-for="Height" class="text-danger"></span>
-    <input type="text" asp-for="Thickness" />
-    <span asp-validation-for="Thickness" class="text-danger"></span>
-    <input type="text" asp-for="Full_Description" />
-    <span asp-validation-for="Full_Description" class="text-danger"></span>
-</form>
-@* <template id="my-template">
+<template id="my-template">
     <swal-title>
         @Model.WatchName
     </swal-title>
@@ -110,23 +76,13 @@
                 value='{ "popup": "my-popup" }' />
     <swal-function-param name="didOpen"
                          value="popup => console.log(popup)" />
-</template> *@
+</template>
 
 @section Scripts{
     <script>
         $(() => {
-
-            $("#btnUpdate").click(() => {
-                console.log($("#formUpdate").valid())
-                if ($("#formUpdate").valid()) {
-                    $("#formUpdate").submit()
-                }
-                else {
-                    return false
-                }
-            })
-
             $("#formUpdate").submit((event) => {
+                console.log("Hello")
                 event.preventDefault()
                 var form = new FormData();
                 form.append("image", imageFile.files[0]);
@@ -147,7 +103,7 @@
                 form.append("thickness", $("#Thickness").val());
 
                 var settings = {
-                    "url": "https://localhost:7147/updatewatch",
+                    "url": "/updatewatch",
                     "method": "PUT",
                     "timeout": 0,
                     "processData": false,
@@ -161,19 +117,29 @@
                     location.reload(true);
                 });
 
-
-                // $.ajax({
-                //     type: 'PUT',
-                //     url: '/updatewatch',
-                //     async: true,
-                //     success: (result) => {
-
-                //     },
-                //     error: (err) => {
-                //         alert(JSON.stringify(err))
-                //     }
-                // })
             })
+
+
+            $("#btnUpdate").click(() => {
+                Swal.fire({
+                    template: '#my-template',
+                    preConfirm: () => {
+                        var name = $("#WatchName").val()
+
+                        if (name == '') {
+                            Swal.showValidationMessage(`Request failed:`)
+                        }
+
+                        // if ($("#formUpdate").valid()) {
+                        //     console.log($("#formUpdate").html())
+                        //     return false;
+                        // }
+                        // else {
+                        //     return false
+                        // }
+                    }
+                })
+            })           
 
             $("#btnToggle").click(async () => {
                 await $.ajax({
