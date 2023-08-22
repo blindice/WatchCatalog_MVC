@@ -1,0 +1,83 @@
+﻿@using WatchCatalog_MVC.ViewModels;
+@model WatchDetailsViewModel
+
+
+<form id="modalForm">
+    <img id="imageViewer" src="@Model.Image" style="height: 100px"/>
+    <input type="file"
+           id="imageFile"
+           data-max-file-size="3MB"
+           data-max-files="3"
+           accept="image/png, image/jpeg, image/gif" />
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control form-control-sm" asp-for="WatchName">
+        <span asp-validation-for="WatchName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Short Description</label>
+        <input type="text" class="form-control  form-control-sm" asp-for="Short_description">
+        <span asp-validation-for="Short_description" class="text-danger"></span>
+    </div>
+    <label class="form-label">Price</label>
+    <div class="input-group mb-3">
+        <span class="input-group-text">฿</span>
+        <input type="text" class="form-control form-control-sm" asp-for="Price">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Chronograph</label>
+        <input type="text" class="form-control form-control-sm" asp-for="Chronograph">
+        <span asp-validation-for="Chronograph" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Jewel</label>
+        <input type="text" class="form-control form-control-sm" asp-for="Jewel">
+        <span asp-validation-for="Jewel" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Case</label>
+        <input type="text" class="form-control form-control-sm" asp-for="Case">
+        <span asp-validation-for="Case" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Strap</label>
+        <input type="text" class="form-control form-control-sm" asp-for="Strap">
+        <span asp-validation-for="Strap" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Caliber</label>
+        <input type="text" class="form-control form-control-sm" asp-for="Caliber">
+        <span asp-validation-for="Caliber" class="text-danger"></span>
+    </div>
+    <label class="form-label">Weight</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control form-control-sm" asp-for="Weight">
+        <span class="input-group-text">g</span>
+        <span asp-validation-for="Weight" class="text-danger"></span>
+    </div>
+    <label class="form-label">Height</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control form-control-sm" asp-for="Height">
+        <span class="input-group-text">mm</span>
+        <span asp-validation-for="Height" class="text-danger"></span>
+    </div>
+    <label class="form-label">Diameter</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control form-control-sm" asp-for="Diameter">
+        <span class="input-group-text">mm</span>
+        <span asp-validation-for="Diameter" class="text-danger"></span>
+    </div>
+    <label class="form-label">Diameter</label>
+    <label class="form-label">Thickness</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control form-control-sm" asp-for="Thickness">
+        <span class="input-group-text">mm</span>
+        <span asp-validation-for="Thickness" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Full Description</label>
+        <textarea class="form-control" rows="3" asp-for="Full_Description" style="resize: none"></textarea>
+        <span asp-validation-for="Full_Description" class="text-danger"></span>
+    </div>
+</form>

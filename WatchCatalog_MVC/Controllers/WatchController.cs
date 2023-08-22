@@ -93,5 +93,11 @@ namespace WatchCatalog_MVC.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        public IActionResult ModalBody([FromBody] int id)
+        {
+            return ViewComponent("ModalBody", id);
+        }
     }
 }
