@@ -3,18 +3,37 @@
 }
 
 
-<div>
-
-    <section id="hero" style="background-color: red; width: 100vw; height: 100vh">
-        This is Hero Section
+<div style="width: 100vw">
+    <section id="hero" style="height: 100vh; width: 100vw;">
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; gap:10vw;">
+            <div id="slogan-container" style="width: 40vw">
+                <p style="font-weight: 700; font-size: 8vh; text-align:start">When Time and Beauty Collides</p>
+                <p style="text-align:justify; font-size:2vh">Aut voluptatibus magnam vel incidunt deleniti et rerum laborum et sunt amet nam explicabo illo! Ut eligendi praesentium sit velit voluptate sit tempora labore est error accusantium est consectetur totam cum nihil fuga aut eveniet rerum.</p>
+                <button class="btn btn-primary btn-lg">See watches</button>
+            </div>
+            <div id="image-container" style="display: flex; flex-direction: column; gap: 1vw">
+                <div style="display: flex; gap: 1vw">
+                    <img class="shadow" src="~/images/watch3.jpg" style="height: 25vh; border-top-left-radius: 15%" />
+                    <img class="shadow" src="~/images/watch1.jpg" style="height: 25vh; border-top-right-radius: 15%" />
+@*                     <img class="shadow" src="~/images/watch2.jpg" style="height: 25vh; border-radius: 10%" /> *@
+                </div>
+                <div style="display: flex; gap: 1vw">
+                    <img class="shadow" src="~/images/watch1.jpg" style="height: 25vh; border-bottom-left-radius: 15%" />
+                    <img class="shadow" src="~/images/watch3.jpg" style="height: 25vh;" />
+                    <img class="shadow" src="~/images/watch2.jpg" style="height: 25vh; border-top-right-radius: 15%" />
+                </div>
+                <div style="display: flex; gap: 1vw; justify-content: end">
+                    <img class="shadow" src="~/images/watch5.jpg" style="height: 25vh; border-bottom-left-radius: 15%" />
+                    <img class="shadow" src="~/images/watch3.jpg" style="height: 25vh; border-bottom-right-radius: 15%" />
+                </div>
+            </div>
+        </div>
+    </section>   
+    <section id="carousel" style="width: 100%;  height: 35vh">    
     </section>
-    <section id="carousel" style="background-color: blue; width: 100vw;  height: 35vh">
-        This is Carousel Section
-    </section>
-    <section id="watches" style="width: 100vw; height: 20vh">
+    <section id="watches" style="width: 100%; height: 20vh">
         <div id="watchesContainer" style="display: flex">
         </div>
-
     </section>
 </div>
 <a asp-action=""></a>

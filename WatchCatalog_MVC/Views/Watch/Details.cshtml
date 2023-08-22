@@ -37,31 +37,18 @@
                    data-max-files="3"
                    accept="image/png, image/jpeg, image/gif" />
             <input type="text" asp-for="WatchName" />
-            <span asp-validation-for="WatchName" class="text-danger"></span>
             <input type="text" asp-for="Short_description" />
-            <span asp-validation-for="Short_description" class="text-danger"></span>
             <input type="text" asp-for="Price" />
-            <span asp-validation-for="Price" class="text-danger"></span>
             <input type="text" asp-for="Caliber" />
-            <span asp-validation-for="Caliber" class="text-danger"></span>
             <input type="text" asp-for="Strap" />
-            <span asp-validation-for="Strap" class="text-danger"></span>
             <input type="text" asp-for="Jewel" />
-            <span asp-validation-for="Strap" class="text-danger"></span>
             <input type="text" asp-for="Case" />
-            <span asp-validation-for="Case" class="text-danger"></span>
             <input type="text" asp-for="Chronograph" />
-            <span asp-validation-for="Chronograph" class="text-danger"></span>
             <input type="text" asp-for="Diameter" />
-            <span asp-validation-for="Diameter" class="text-danger"></span>
             <input type="text" asp-for="Weight" />
-            <span asp-validation-for="Weight" class="text-danger"></span>
             <input type="text" asp-for="Height" />
-            <span asp-validation-for="Height" class="text-danger"></span>
             <input type="text" asp-for="Thickness" />
-            <span asp-validation-for="Thickness" class="text-danger"></span>
             <input type="text" asp-for="Full_Description" />
-            <span asp-validation-for="Full_Description" class="text-danger"></span>
         </form>
     </swal-html>
     <swal-button type="confirm">
@@ -81,65 +68,92 @@
 @section Scripts{
     <script>
         $(() => {
-            $("#formUpdate").submit((event) => {
-                console.log("Hello")
-                event.preventDefault()
-                var form = new FormData();
-                form.append("image", imageFile.files[0]);
-                form.append("watchname", $("#WatchName").val());
-                form.append("case", $("#Case").val());
-                form.append("jewel", $("#Jewel").val());
-                form.append("strap", $("#Strap").val());
-                form.append("caliber", $("#Caliber").val());
-                form.append("full_description", $("#Full_Description").val());
-                form.append("short_description", $("#Short_description").val());
-                form.append("watchId", @Model.WatchId);
-                form.append("Chronograph", $("#Chronograph").val());
-                form.append("price", $("#Price").val());
-                form.append("height", $("#Height").val());
-                form.append("weight", $("#Weight").val());
-                form.append("diameter", $("#Diameter").val());
-                form.append("isActive", @Model.IsActive.ToString().ToLower());
-                form.append("thickness", $("#Thickness").val());
+            // $("#formUpdate").submit((event) => {
+            //     console.log("Hello")
+            //     event.preventDefault()
+            //     var form = new FormData();
+            //     form.append("image", imageFile.files[0]);
+            //     form.append("watchname", $("#WatchName").val());
+            //     form.append("case", $("#Case").val());
+            //     form.append("jewel", $("#Jewel").val());
+            //     form.append("strap", $("#Strap").val());
+            //     form.append("caliber", $("#Caliber").val());
+            //     form.append("full_description", $("#Full_Description").val());
+            //     form.append("short_description", $("#Short_description").val());
+            //     form.append("watchId", @Model.WatchId);
+            //     form.append("Chronograph", $("#Chronograph").val());
+            //     form.append("price", $("#Price").val());
+            //     form.append("height", $("#Height").val());
+            //     form.append("weight", $("#Weight").val());
+            //     form.append("diameter", $("#Diameter").val());
+            //     form.append("isActive", @Model.IsActive.ToString().ToLower());
+            //     form.append("thickness", $("#Thickness").val());
 
-                var settings = {
-                    "url": "/updatewatch",
-                    "method": "PUT",
-                    "timeout": 0,
-                    "processData": false,
-                    "mimeType": "multipart/form-data",
-                    "contentType": false,
-                    "data": form
-                };
+            //     var settings = {
+            //         "url": "/updatewatch",
+            //         "method": "PUT",
+            //         "timeout": 0,
+            //         "processData": false,
+            //         "mimeType": "multipart/form-data",
+            //         "contentType": false,
+            //         "data": form
+            //     };
 
-                $.ajax(settings).done(function (response) {
-                    console.log(response);
-                    location.reload(true);
-                });
+            //     $.ajax(settings).done(function (response) {
+            //         console.log(response);
+            //         location.reload(true);
+            //     });
 
-            })
+            // })
 
 
             $("#btnUpdate").click(() => {
                 Swal.fire({
                     template: '#my-template',
-                    preConfirm: () => {
-                        var name = $("#WatchName").val()
+                    preConfirm: async () => {
+                        var $inputs = $("#formUpdate input[type='text']")
 
-                        if (name == '') {
-                            Swal.showValidationMessage(`Request failed:`)
-                        }
+                        $inputs.each((key, value) => {
+                            if (value.value == '') {
+                                $(value).css("border", "1px red solid")
+                                Swal.showValidationMessage(`Fill All Fields!`)
+                            }
+                        })
 
-                        // if ($("#formUpdate").valid()) {
-                        //     console.log($("#formUpdate").html())
-                        //     return false;
-                        // }
-                        // else {
-                        //     return false
-                        // }
+                        var form = new FormData();
+                            form.append("image", imageFile.files[0]);
+                            form.append("watchname", $("#WatchName").val());
+                            form.append("case", $("#Case").val());
+                            form.append("jewel", $("#Jewel").val());
+                            form.append("strap", $("#Strap").val());
+                            form.append("caliber", $("#Caliber").val());
+                            form.append("full_description", $("#Full_Description").val());
+                            form.append("short_description", $("#Short_description").val());
+                            form.append("watchId", @Model.WatchId);
+                            form.append("Chronograph", $("#Chronograph").val());
+                            form.append("price", $("#Price").val());
+                            form.append("height", $("#Height").val());
+                            form.append("weight", $("#Weight").val());
+                            form.append("diameter", $("#Diameter").val());
+                            form.append("isActive", @Model.IsActive.ToString().ToLower());
+                            form.append("thickness", $("#Thickness").val());
+
+                            var settings = {
+                                "url": "/updatewatch",
+                                "method": "PUT",
+                                "timeout": 0,
+                                "processData": false,
+                                "mimeType": "multipart/form-data",
+                                "contentType": false,
+                                "data": form
+                            };
+
+                            await $.ajax(settings).done(function (response) {
+                                console.log(response);
+                            });
                     }
                 })
-            })           
+            })
 
             $("#btnToggle").click(async () => {
                 await $.ajax({
