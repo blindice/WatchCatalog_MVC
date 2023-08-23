@@ -1,9 +1,15 @@
 ﻿@using WatchCatalog_MVC.ViewModels;
 @model WatchDetailsViewModel
 
-
 <form id="modalForm">
-    <img id="imageViewer" src="@Model.Image" style="height: 100px"/>
+    @if (string.IsNullOrEmpty(Model.Image))
+    {
+        <img id="imageViewer" src="~/images/imagetemplate.png" style="height: 100px" />
+    }
+    else
+    {
+        <img id="imageViewer" src="@Model.Image" style="height: 100px" />
+    }
     <input type="file"
            id="imageFile"
            data-max-file-size="3MB"
@@ -81,3 +87,4 @@
         <span asp-validation-for="Full_Description" class="text-danger"></span>
     </div>
 </form>
+

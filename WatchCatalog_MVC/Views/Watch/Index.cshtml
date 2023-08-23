@@ -15,7 +15,7 @@
                 <div style="display: flex; gap: 1vw">
                     <img class="shadow" src="~/images/watch3.jpg" style="height: 25vh; border-top-left-radius: 15%" />
                     <img class="shadow" src="~/images/watch1.jpg" style="height: 25vh; border-top-right-radius: 15%" />
-@*                     <img class="shadow" src="~/images/watch2.jpg" style="height: 25vh; border-radius: 10%" /> *@
+                    @*                     <img class="shadow" src="~/images/watch2.jpg" style="height: 25vh; border-radius: 10%" /> *@
                 </div>
                 <div style="display: flex; gap: 1vw">
                     <img class="shadow" src="~/images/watch1.jpg" style="height: 25vh; border-bottom-left-radius: 15%" />
@@ -28,44 +28,88 @@
                 </div>
             </div>
         </div>
-    </section>   
-    <section id="carousel" style="width: 100%;  height: 35vh">    
+    </section>
+    <section id="carousel" style="width: 100%;  height: 35vh">
     </section>
     <section id="watches" style="width: 100%; height: 20vh">
+        <button id="btnAdd" class="btn btn-primary">Create Watch</button>
         <div id="watchesContainer" style="display: flex">
         </div>
     </section>
+    <partial name="_Modal" />
 </div>
-<a asp-action=""></a>
 
 @section Scripts{
     <script>
         $(async () => {
-            await $.ajax({
-                url: '@Url.Action("getwatches")',
-                method: "GET",
-                beforeSend: () => {
-                    $("#watchesContainer").empty()
-                    $("#watchesContainer").html("Loading...")
-                },
-                success: (res) => {
-                    $("#watchesContainer").empty()
-                    $.each(res, (key, value) => {
-                        var createCard = (value) => {
-                            var cardBody = $("<div>").addClass("card").css("width", "100px").css({ "height": "100px", "cursor": "pointer" })
-                            var image = $(`<img src='${value.image}' />`)
-                            cardBody.click(() => {
-                                window.location.href = `@Url.Action("Details")/${value.watchId}`
-                            })
+            //getting all watches
+            var getAllWatches = async () => {
+                await $.ajax({
+                    url: '@Url.Action("getwatches")',
+                    method: "GET",
+                    beforeSend: () => {
+                        $("#watchesContainer").empty()
+                        $("#watchesContainer").html("Loading...")
+                    },
+                    success: (res) => {
+                        $("#watchesContainer").empty()
+                        $.each(res, (key, value) => {
+                            var createCard = (value) => {
+                                var cardBody = $("<div>").addClass("card").css("width", "100px").css({ "height": "100px", "cursor": "pointer" })
+                                var image = $(`<img src='${value.image}' />`)
+                                cardBody.click(() => {
+                                    window.location.href = `@Url.Action("Details")/${value.watchId}`
+                                })
 
-                            return cardBody.append(image)
-                        }
-                        $("#watchesContainer").append(createCard(value))
-                    })
-                }
-            }).done(function (response) {
-                console.log(response);
-            });
+                                return cardBody.append(image)
+                            }
+                            $("#watchesContainer").append(createCard(value))
+                        })
+                    }
+                }).done(function (response) {
+                    console.log(response);
+                });
+            }
+
+            getAllWatches();
+
+            //add
+            $("#btnAdd").click(() => callModalBody({ url: '@Url.Action("ModalBody")', method: "POST", id: null, submitFn: formSubmit }))
+
+            var formSubmit = (event) => {
+                event.preventDefault()
+                var form = new FormData();
+                form.append("image", imageFile.files[0]);
+                form.append("watchname", $("#WatchName").val());
+                form.append("case", $("#Case").val());
+                form.append("jewel", $("#Jewel").val());
+                form.append("strap", $("#Strap").val());
+                form.append("caliber", $("#Caliber").val());
+                form.append("full_description", $("#Full_Description").val());
+                form.append("short_description", $("#Short_description").val());
+                form.append("Chronograph", $("#Chronograph").val());
+                form.append("price", $("#Price").val());
+                form.append("height", $("#Height").val());
+                form.append("weight", $("#Weight").val());
+                form.append("diameter", $("#Diameter").val());
+                form.append("thickness", $("#Thickness").val());
+
+                $.ajax({
+                    url: "/addwatch",
+                    method: "POST",
+                    timeout: 0,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    contentType: false,
+                    data: form,
+                    success: () => {
+                        getAllWatches()
+                    },
+                    error: (err) => {
+                        console.log(err)
+                    }
+                })
+            }
         })
     </script>
 }

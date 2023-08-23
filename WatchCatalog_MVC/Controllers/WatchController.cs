@@ -22,7 +22,7 @@ namespace WatchCatalog_MVC.Controllers
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get
-                , $"https://localhost:7093/api/Watch/getwatches?PageNumber={pageParams.PageNumber}&PageSize={pageParams.PageSize}");
+                , $"https://localhost:7093/api/Watch/getwatches?PageNumber={pageParams.PageNumber}&PageSize={99}");
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var watches = await response.Content.ReadFromJsonAsync<List<WatchDTO>>();
@@ -94,8 +94,44 @@ namespace WatchCatalog_MVC.Controllers
             return Ok();
         }
 
+        [HttpPost("addwatch")]
+        public async Task<IActionResult> Add([FromForm] AddWatchDTO watch)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7093/api/Watch/createwatch");
+            var content = new MultipartFormDataContent();
+
+            if (watch.Image != null)
+            {
+                var fileContent = new StreamContent(watch.Image.OpenReadStream());
+                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(watch.Image.ContentType);
+                content.Add(fileContent, "image", watch.Image.FileName);
+            }
+
+            content.Add(new StringContent(watch.WatchName), "watchname");
+            content.Add(new StringContent(watch.Case), "case");
+            content.Add(new StringContent(watch.Jewel), "jewel");
+            content.Add(new StringContent(watch.Strap), "strap");
+            content.Add(new StringContent(watch.Caliber), "caliber");
+            content.Add(new StringContent(watch.Full_Description), "full_description");
+            content.Add(new StringContent(watch.Short_description), "short_description");
+            content.Add(new StringContent(watch.Chronograph), "Chronograph");
+            content.Add(new StringContent(watch.Price.ToString()), "price");
+            content.Add(new StringContent(watch.Height.ToString()), "height");
+            content.Add(new StringContent(watch.Weight.ToString()), "weight");
+            content.Add(new StringContent(watch.Diameter.ToString()), "diameter");
+            content.Add(new StringContent(watch.Thickness.ToString()), "thickness");
+            request.Content = content;
+            var response = await client.SendAsync(request);
+            //response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadAsStringAsync();
+
+
+            return Ok();
+        }
+
         [HttpPost]
-        public IActionResult ModalBody([FromBody] int id)
+        public IActionResult ModalBody([FromBody] int? id)
         {
             return ViewComponent("ModalBody", id);
         }

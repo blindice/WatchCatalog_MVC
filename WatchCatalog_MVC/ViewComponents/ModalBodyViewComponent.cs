@@ -9,13 +9,17 @@ namespace WatchCatalog_MVC.ViewComponents
         {
             
         }
-        public async Task<IViewComponentResult> InvokeAsync(int id)
+        public async Task<IViewComponentResult> InvokeAsync(int? id)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7093/api/Watch/getwatchbyid/{id}");
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            var watch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
+            var watch = new WatchDetailsViewModel();
+            if (id != null)
+            {
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7093/api/Watch/getwatchbyid/{id}");
+                var response = await client.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+                watch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
+            }
 
             return View<WatchDetailsViewModel>(watch);
         }
