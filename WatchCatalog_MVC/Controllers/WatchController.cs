@@ -1,5 +1,6 @@
 ﻿using MessagePack.Resolvers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -22,12 +23,14 @@ namespace WatchCatalog_MVC.Controllers
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get
-                , $"https://localhost:7093/api/Watch/getwatches?PageNumber={pageParams.PageNumber}&PageSize={99}");
+                , $"https://localhost:7093/api/Watch/getwatches?PageNumber={pageParams.PageNumber}&PageSize={pageParams.PageSize}");
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
-            var watches = await response.Content.ReadFromJsonAsync<List<WatchDTO>>();
 
-            return Ok(watches);
+            var result = JsonConvert.DeserializeObject<WatchesPaginationViewModel>(response.Headers.GetValues("X-Pagination").First());
+            result.WatchDTOs = await response.Content.ReadFromJsonAsync<List<WatchDTO>>();
+
+            return Ok(result);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -126,6 +129,18 @@ namespace WatchCatalog_MVC.Controllers
             //response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsStringAsync();
 
+
+            return Ok();
+        }
+
+        [HttpDelete("deletewatch/{id}")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7093/api/Watch/deletewatch/{id}");
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
 
             return Ok();
         }

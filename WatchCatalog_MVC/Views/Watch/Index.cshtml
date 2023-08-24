@@ -7,15 +7,14 @@
     <section id="hero" style="height: 100vh; width: 100vw;">
         <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; gap:10vw;">
             <div id="slogan-container" style="width: 40vw">
-                <p style="font-weight: 700; font-size: 8vh; text-align:start">When Time and Beauty Collides</p>
+                <p style="font-weight: 700; font-size: 8vh; text-align:start">When <span style="color: #0d6efd">Time</span> and <span style="color: #0d6efd">Beauty</span> Collides</p>
                 <p style="text-align:justify; font-size:2vh">Aut voluptatibus magnam vel incidunt deleniti et rerum laborum et sunt amet nam explicabo illo! Ut eligendi praesentium sit velit voluptate sit tempora labore est error accusantium est consectetur totam cum nihil fuga aut eveniet rerum.</p>
-                <button class="btn btn-primary btn-lg">See watches</button>
+                <button class="btn btn-primary btn-lg shadow-sm">See watches</button>
             </div>
             <div id="image-container" style="display: flex; flex-direction: column; gap: 1vw">
                 <div style="display: flex; gap: 1vw">
                     <img class="shadow" src="~/images/watch3.jpg" style="height: 25vh; border-top-left-radius: 15%" />
                     <img class="shadow" src="~/images/watch1.jpg" style="height: 25vh; border-top-right-radius: 15%" />
-                    @*                     <img class="shadow" src="~/images/watch2.jpg" style="height: 25vh; border-radius: 10%" /> *@
                 </div>
                 <div style="display: flex; gap: 1vw">
                     <img class="shadow" src="~/images/watch1.jpg" style="height: 25vh; border-bottom-left-radius: 15%" />
@@ -31,9 +30,15 @@
     </section>
     <section id="carousel" style="width: 100%;  height: 35vh">
     </section>
-    <section id="watches" style="width: 100%; height: 20vh">
-        <button id="btnAdd" class="btn btn-primary">Create Watch</button>
-        <div id="watchesContainer" style="display: flex">
+    <section id="watches" style="width: 100%; height: 100vh">
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; gap:2vw;">
+            <button id="btnAdd" class="btn btn-primary">Create Watch</button>
+            <div id="watchesContainer" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            </div>
+            <div id="pagination-container">
+                <ul class="pagination pagination-sm">
+                </ul>
+            </div>
         </div>
     </section>
     <partial name="_Modal" />
@@ -43,20 +48,21 @@
     <script>
         $(async () => {
             //getting all watches
-            var getAllWatches = async () => {
+            let getAllWatches = async (pageNumber = 1) => {
                 await $.ajax({
-                    url: '@Url.Action("getwatches")',
+                    url: `@Url.Action("getwatches")?PageNumber=${pageNumber}`,
                     method: "GET",
                     beforeSend: () => {
                         $("#watchesContainer").empty()
                         $("#watchesContainer").html("Loading...")
                     },
                     success: (res) => {
+                        //create watches cards
                         $("#watchesContainer").empty()
-                        $.each(res, (key, value) => {
-                            var createCard = (value) => {
-                                var cardBody = $("<div>").addClass("card").css("width", "100px").css({ "height": "100px", "cursor": "pointer" })
-                                var image = $(`<img src='${value.image}' />`)
+                        $.each(res.watchDTOs, (key, value) => {
+                            let createCard = (value) => {
+                                let cardBody = $("<div>").addClass("card").css("width", "10vw").css("height", "25vh").css("position", "relative").css("overflow", "hidden")
+                                let image = $(`<img src='${value.image}' />`).css("height", "25vh").css("position", "absolute").css("margin", "auto")
                                 cardBody.click(() => {
                                     window.location.href = `@Url.Action("Details")/${value.watchId}`
                                 })
@@ -64,19 +70,47 @@
                                 return cardBody.append(image)
                             }
                             $("#watchesContainer").append(createCard(value))
+
                         })
+
+                        //create pagination
+                        $(".pagination").empty()
+                        let firstPagination = $("<li>").addClass(`page-item ${res.hasPrevious ? '' : 'disabled'}`).wrapInner(`<button class='page-link'>First</button>`)
+
+                        if (res.hasPrevious) firstPagination.click(async () => await getAllWatches(1))
+
+                        let lastPagination = $("<li>").addClass(`page-item ${res.hasNext && res.currentPage != res.totalPage ? '' : 'disabled'}`)
+                            .wrapInner(`<button class='page-link'>Last</button>`)
+
+                        if (res.hasNext && res.currentPage != res.totalPage) lastPagination.click(async () => await getAllWatches(res.totalPages))
+
+                        let paginationButtons = []
+
+                        for (let i = res.currentPage - 2; i <= res.currentPage + 2; i++) {
+                            let pageButton;
+                            if (i > 0 && i <= res.totalPages)
+                                pageButton = $("<li>").addClass("page-item").wrapInner($("<button>").addClass("page-link").text(i).click(async () => await getAllWatches(i)))
+
+                            if (i === res.currentPage)
+                                pageButton.addClass("active").children().off()
+
+                            paginationButtons.push(pageButton)
+                        }
+
+                        $(".pagination").append(firstPagination, paginationButtons, lastPagination)
+                    },
+                    error: (err) => {
+                        console.log(err)
                     }
-                }).done(function (response) {
-                    console.log(response);
-                });
+                })
             }
 
-            getAllWatches();
+            await getAllWatches();
 
             //add
             $("#btnAdd").click(() => callModalBody({ url: '@Url.Action("ModalBody")', method: "POST", id: null, submitFn: formSubmit }))
 
-            var formSubmit = (event) => {
+            var formSubmit = async (event) => {
                 event.preventDefault()
                 var form = new FormData();
                 form.append("image", imageFile.files[0]);
@@ -94,7 +128,7 @@
                 form.append("diameter", $("#Diameter").val());
                 form.append("thickness", $("#Thickness").val());
 
-                $.ajax({
+                await $.ajax({
                     url: "/addwatch",
                     method: "POST",
                     timeout: 0,
