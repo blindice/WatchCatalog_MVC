@@ -99,8 +99,9 @@
 
                         $(".pagination").append(firstPagination, paginationButtons, lastPagination)
                     },
-                    error: (err) => {
-                        console.log(err)
+                    error: (xhr, ajaxOptions, thrownError) => {
+                        console.log(xhr)
+                        window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
                     }
                 })
             }

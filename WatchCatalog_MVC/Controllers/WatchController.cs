@@ -7,12 +7,17 @@ using System.Net.Http.Headers;
 using System.Text;
 using WatchCatalog_MVC.DTOs;
 using WatchCatalog_MVC.Helpers;
+using WatchCatalog_MVC.Interfaces;
 using WatchCatalog_MVC.ViewModels;
 
 namespace WatchCatalog_MVC.Controllers
 {
     public class WatchController : Controller
     {
+        readonly IHttpClientService _httpClientService;
+
+        public WatchController(IHttpClientService httpClientService) => _httpClientService = httpClientService;
+
         public IActionResult Index()
         {
             return View();
@@ -21,25 +26,14 @@ namespace WatchCatalog_MVC.Controllers
         [HttpGet("getwatches")]
         public async Task<IActionResult> GetWatchesAsync([FromQuery] WatchPageParameters pageParams)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get
-                , $"https://localhost:7093/api/Watch/getwatches?PageNumber={pageParams.PageNumber}&PageSize={pageParams.PageSize}");
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+            var paginatedWatches = await _httpClientService.GetPaginatedWatchesAsync(pageParams);
 
-            var result = JsonConvert.DeserializeObject<WatchesPaginationViewModel>(response.Headers.GetValues("X-Pagination").First());
-            result.WatchDTOs = await response.Content.ReadFromJsonAsync<List<WatchDTO>>();
-
-            return Ok(result);
+            return Ok(paginatedWatches);
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7093/api/Watch/getwatchbyid/{id}");
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            var watch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
+            var watch = await _httpClientService.GetWatchDetailsAsync((int)id!);
 
             return View(watch);
         }

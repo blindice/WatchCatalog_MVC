@@ -1,0 +1,11 @@
+﻿@using WatchCatalog_MVC.ViewModels;
+@model ErrorViewModel
+
+@{
+    var errorMessage = string.IsNullOrEmpty(Model.Message) ? "Internal Server Error" : Model.Message;
+}
+
+<div style="display: flex; flex-direction: column;justify-content: center; align-items: center; height: 84vh; width: 100vw">
+    <h1 style="font-weight: 700"><span style="color: darkred">@Model.StatusCode</span> : @errorMessage</h1>
+    <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Index", "Watch")'"> Back to Home</button>
+</div>
