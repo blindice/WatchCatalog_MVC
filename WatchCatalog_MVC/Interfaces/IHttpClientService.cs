@@ -1,4 +1,5 @@
-﻿using WatchCatalog_MVC.Helpers;
+﻿using WatchCatalog_MVC.DTOs;
+using WatchCatalog_MVC.Helpers;
 using WatchCatalog_MVC.ViewModels;
 
 namespace WatchCatalog_MVC.Interfaces
@@ -8,5 +9,11 @@ namespace WatchCatalog_MVC.Interfaces
         Task<WatchesPaginationViewModel> GetPaginatedWatchesAsync(WatchPageParameters pageParams);
 
         Task<WatchDetailsViewModel> GetWatchDetailsAsync(int id);
+
+        Task<WatchDetailsViewModel> ToggleWatchAsync(ToggleWatchDTO watch);
+
+        Task<WatchDetailsViewModel> UpdateWatchAsync(UpdateWatchDTO watch);
+
+        Task<WatchDetailsViewModel> AddWatchAsync(AddWatchDTO watch);
     }
 }

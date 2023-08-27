@@ -41,14 +41,7 @@ namespace WatchCatalog_MVC.Controllers
         [HttpPost("togglewatch")]
         public async Task<IActionResult> Toggle([FromBody] ToggleWatchDTO watch)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Put, "https://localhost:7093/api/Watch/togglewatch");
-            var content = JsonConvert.SerializeObject(watch);
-            var data = new StringContent(content, Encoding.UTF8, "application/json");
-            request.Content = data;
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            var modifiedWatch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
+            var modifiedWatch = await _httpClientService.ToggleWatchAsync(watch);
 
             return Ok(modifiedWatch);
         }
@@ -56,75 +49,18 @@ namespace WatchCatalog_MVC.Controllers
         [HttpPut("updatewatch")]
         public async Task<IActionResult> Update([FromForm] UpdateWatchDTO watch)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Put, "https://localhost:7093/api/watch/updatewatch");
-            var content = new MultipartFormDataContent();
-
-            if (watch.Image != null)
-            {
-                var fileContent = new StreamContent(watch.Image.OpenReadStream());
-                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(watch.Image.ContentType);
-                content.Add(fileContent, "image", watch.Image.FileName);
-            }
-
-            content.Add(new StringContent(watch.WatchName), "watchname");
-            content.Add(new StringContent(watch.Case), "case");
-            content.Add(new StringContent(watch.Jewel), "jewel");
-            content.Add(new StringContent(watch.Strap), "strap");
-            content.Add(new StringContent(watch.Caliber), "caliber");
-            content.Add(new StringContent(watch.Full_Description), "full_description");
-            content.Add(new StringContent(watch.Short_description), "short_description");
-            content.Add(new StringContent(watch.WatchId.ToString()), "watchId");
-            content.Add(new StringContent(watch.Chronograph), "Chronograph");
-            content.Add(new StringContent(watch.Price.ToString()), "price");
-            content.Add(new StringContent(watch.Height.ToString()), "height");
-            content.Add(new StringContent(watch.Weight.ToString()), "weight");
-            content.Add(new StringContent(watch.Diameter.ToString()), "diameter");
-            content.Add(new StringContent(watch.IsActive.ToString()), "isActive");
-            content.Add(new StringContent(watch.Thickness.ToString()), "thickness");
-            request.Content = content;
-            var response = await client.SendAsync(request);
-            //response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadAsStringAsync();
+            var modifiedWatch = await _httpClientService.UpdateWatchAsync(watch);
 
 
-            return Ok();
+            return Ok(modifiedWatch);
         }
 
         [HttpPost("addwatch")]
         public async Task<IActionResult> Add([FromForm] AddWatchDTO watch)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7093/api/Watch/createwatch");
-            var content = new MultipartFormDataContent();
+            var modifiedWatch = await _httpClientService.AddWatchAsync(watch);
 
-            if (watch.Image != null)
-            {
-                var fileContent = new StreamContent(watch.Image.OpenReadStream());
-                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(watch.Image.ContentType);
-                content.Add(fileContent, "image", watch.Image.FileName);
-            }
-
-            content.Add(new StringContent(watch.WatchName), "watchname");
-            content.Add(new StringContent(watch.Case), "case");
-            content.Add(new StringContent(watch.Jewel), "jewel");
-            content.Add(new StringContent(watch.Strap), "strap");
-            content.Add(new StringContent(watch.Caliber), "caliber");
-            content.Add(new StringContent(watch.Full_Description), "full_description");
-            content.Add(new StringContent(watch.Short_description), "short_description");
-            content.Add(new StringContent(watch.Chronograph), "Chronograph");
-            content.Add(new StringContent(watch.Price.ToString()), "price");
-            content.Add(new StringContent(watch.Height.ToString()), "height");
-            content.Add(new StringContent(watch.Weight.ToString()), "weight");
-            content.Add(new StringContent(watch.Diameter.ToString()), "diameter");
-            content.Add(new StringContent(watch.Thickness.ToString()), "thickness");
-            request.Content = content;
-            var response = await client.SendAsync(request);
-            //response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadAsStringAsync();
-
-
-            return Ok();
+            return Ok(modifiedWatch);
         }
 
         [HttpDelete("deletewatch/{id}")]
