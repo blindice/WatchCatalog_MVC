@@ -6,10 +6,17 @@
 <div style="width: 100vw">
     <section id="hero" style="height: 100vh; width: 100vw; background-image: url(../images/wallpaer.png)">
         <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; gap:10vw;">
-            <div id="slogan-container" style="width: 40vw">
+            <div id="slogan-container" style="width: 40vw; position: relative">
                 <p style="font-weight: 700; font-size: 8vh; text-align:start">When <span style="color: #0d6efd">Time</span> and <span style="color: #0d6efd">Beauty</span> Collides</p>
-                <p style="text-align:justify; font-size:2vh">Aut voluptatibus magnam vel incidunt deleniti et rerum laborum et sunt amet nam explicabo illo! Ut eligendi praesentium sit velit voluptate sit tempora labore est error accusantium est consectetur totam cum nihil fuga aut eveniet rerum.</p>
-                <button class="btn btn-primary btn-lg shadow-sm">See watches</button>
+                <p style="text-align:justify; font-size:2vh">
+                    Here at <span style="font-weight: 700">Clockwork</span>, we just dont give and priorities <span style="font-weight: 700">Quality</span>, because that's already <span style="font-weight: 700">given</span> to our products
+                    <img src="~/images/fire.gif" style="height: 2.5vh; margin-left: -.5vw; transform: translateY(-.5vh)" />. We give our consumers a whole new <span style="font-weight: 700">Exprerience</span> and <span style=" font-weight: 700">Unrivaled Satisfaction</span> that will remove all your watch trust issues.
+                    @*                     <img src="~/images/thumbsup.gif" style="z-index: -1; bottom: -2.3vh; left: 0vw" /> *@
+                </p>
+                <div style="display: flex; align-items: center; column-gap: 2vw">
+                    <button class="btn btn-primary btn-lg shadow-sm">See watches</button>
+                    <p style="margin-top: 1.5vh; font-weight: 700; font-size: 1.5vh"><span style="color: #0d6efd">1000+</span> visits everyday!</p>
+                </div>
             </div>
             <div id="image-container" style="display: flex; flex-direction: column; gap: 1vw">
                 <div style="display: flex; gap: 1vw">
@@ -26,9 +33,42 @@
                     <img class="shadow" src="~/images/wrist-watch-clock-time-indicating-time-of.jpg" style="height: 25vh; border-bottom-right-radius: 15%" />
                 </div>
             </div>
+            @* <img src="~/images/scroll.gif" style="position: absolute; top: 85vh; height: 15vh" /> *@
+            <video autoplay loop muted playsinline src="~/videos/scrollvid.mp4" style="position: absolute; top: 88vh; height: 15vh; z-index: -1"></video>
         </div>
     </section>
-    <section id="carousel" style="width: 100%;  height: 35vh; background: #0d6efd; border-radius: 5%">
+    <section id="bullet" style="width: 100%; background: #0d6efd; display: flex; color: white; justify-content:space-around; padding: 1.5vw 3vw ">
+        <div style="display: flex; flex-direction: column; width: 20vw">
+            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 4vh;" /><p style="font-size: 2.5vh; font-weight: 500">Strap</p></div>
+            <p style="text-align:justify;font-size: 1.5vh">
+                Our Straps are made with quality materials depends on the type. Leather straps are made with high quality cow or crocodile hide.
+                Rubber straps are made with double shot abs for extra elasticity. And for Metal straps we used combinations of carbon fiber with aluminum to make it lightweight.
+            </p>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 20vw">
+            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 4vh;" /><p style="font-size: 2.5vh; font-weight: 500">Jewel</p></div>
+            <p style="text-align:justify;font-size: 1.5vh">Our Jewels are from and hand-carfted by our trusted gemologist, who works everyday on the fields, mountains, riverbeds and forests together with world-renowed jewelers. Jewels will then be sent to our QA for more quality assurance.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 20vw">
+            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 4vh;" /><p style="font-size: 2.5vh; font-weight: 500">Case</p></div>
+            <p style="text-align:justify;font-size: 1.5vh">Our Cases are made according to the consumers request. We can make it with carbon fiber to be lightweight mixed with choice or metals, and well, if they don't want the extra light, we can opt to use pure metal materials.</p>
+        </div>
+    </section>
+    <section id="propositions" style="width: 100%; background: #0d6efd; border-top: 2px white solid; display: flex; flex-direction: column; color: white; padding: 3vw 3vw">
+        <div style="display:flex; justify-content: center">
+            <div style="width: 50vw;">
+                <p style="font-size: 2.5vh; font-weight: 500">IP68 Rating</p>
+            </div>
+            <img class="shadow-sm" src="~/images/ip68.jpg" style="border-radius: 2vw; width: 50vw" />
+        </div>
+        <div style="display:flex;justify-content: center">
+            <img class="shadow-sm" src="~/images/ip68.jpg" style="border-radius: 2vw; width: 50vw" />
+            <div style="width: 50vw;">
+                <p style="font-size: 2.5vh; font-weight: 500">IP68 Rating</p>
+            </div>
+        </div>
+    </section>
+    <section id="carousel" style="width: 100%;  height: 35vh; background: #0d6efd; border-top: 2px white solid">
     </section>
     <section id="watches" style="width: 100%; height: 100vh">
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; gap:2vw;">
