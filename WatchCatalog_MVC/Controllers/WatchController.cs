@@ -66,13 +66,9 @@ namespace WatchCatalog_MVC.Controllers
         [HttpDelete("deletewatch/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7093/api/Watch/deletewatch/{id}");
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
+            var deletedWatch = await _httpClientService.DeleteWatchAsync((int)id!);
 
-            return Ok();
+            return Ok(deletedWatch);
         }
 
         [HttpPost]

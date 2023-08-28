@@ -15,5 +15,7 @@ namespace WatchCatalog_MVC.Interfaces
         Task<WatchDetailsViewModel> UpdateWatchAsync(UpdateWatchDTO watch);
 
         Task<WatchDetailsViewModel> AddWatchAsync(AddWatchDTO watch);
+
+        Task<WatchDetailsViewModel> DeleteWatchAsync(int id);
     }
 }

@@ -25,7 +25,7 @@ namespace WatchCatalog_MVC.Services
                 response.EnsureSuccessStatusCode();
 
                 var result = JsonConvert.DeserializeObject<WatchesPaginationViewModel>(response.Headers.GetValues("X-Pagination").First());
-                result.WatchDTOs = await response.Content.ReadFromJsonAsync<List<WatchDTO>>();
+                result!.WatchDTOs = await response.Content.ReadFromJsonAsync<List<WatchDTO>>();
 
                 return result;
             }
@@ -42,7 +42,7 @@ namespace WatchCatalog_MVC.Services
 
                 var watch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
 
-                return watch;
+                return watch!;
             }
         }
 
@@ -59,7 +59,7 @@ namespace WatchCatalog_MVC.Services
 
                 var modifiedWatch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
 
-                return modifiedWatch;
+                return modifiedWatch!;
             }
         }
 
@@ -98,7 +98,7 @@ namespace WatchCatalog_MVC.Services
 
                 var modifiedWatch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
 
-                return modifiedWatch;
+                return modifiedWatch!;
             }
         }
 
@@ -135,7 +135,22 @@ namespace WatchCatalog_MVC.Services
 
                 var modifiedWatch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
 
-                return modifiedWatch;
+                return modifiedWatch!;
+            }
+        }
+
+        public async Task<WatchDetailsViewModel> DeleteWatchAsync(int id)
+        {
+            var httpClient = _httpClientFactory.CreateClient("WatchClient");
+
+            using (var response = await httpClient.DeleteAsync($"deletewatch/{id}"))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException(response.ReasonPhrase, null, response.StatusCode);
+
+                var watch = await response.Content.ReadFromJsonAsync<WatchDetailsViewModel>();
+
+                return watch!;
             }
         }
     }
