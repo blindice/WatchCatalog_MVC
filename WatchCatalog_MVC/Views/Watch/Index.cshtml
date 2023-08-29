@@ -4,6 +4,7 @@
 
 
 <div style="width: 100vw">
+    @* Hero Section *@
     <section id="hero" style="height: 100vh; width: 100vw; background-image: url(../images/wallpaer.png)">
         <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; gap:10vw;">
             <div id="slogan-container" style="width: 40vw; position: relative">
@@ -11,10 +12,9 @@
                 <p style="text-align:justify; font-size:2vh">
                     Here at <span style="font-weight: 700">Clockwork</span>, we just dont give and priorities <span style="font-weight: 700">Quality</span>, because that's already <span style="font-weight: 700">given</span> to our products
                     <img src="~/images/fire.gif" style="height: 2.5vh; margin-left: -.5vw; transform: translateY(-.5vh)" />. We give our consumers a whole new <span style="font-weight: 700">Exprerience</span> and <span style=" font-weight: 700">Unrivaled Satisfaction</span> that will remove all your watch trust issues.
-                    @*                     <img src="~/images/thumbsup.gif" style="z-index: -1; bottom: -2.3vh; left: 0vw" /> *@
                 </p>
                 <div style="display: flex; align-items: center; column-gap: 2vw">
-                    <button class="btn btn-primary btn-lg shadow-sm">See watches</button>
+                    <button class="btn btn-primary btn-lg shadow">See watches</button>
                     <p style="margin-top: 1.5vh; font-weight: 700; font-size: 1.5vh"><span style="color: #0d6efd">1000+</span> visits everyday!</p>
                 </div>
             </div>
@@ -33,42 +33,135 @@
                     <img class="shadow" src="~/images/wrist-watch-clock-time-indicating-time-of.jpg" style="height: 25vh; border-bottom-right-radius: 15%" />
                 </div>
             </div>
-            @* <img src="~/images/scroll.gif" style="position: absolute; top: 85vh; height: 15vh" /> *@
-            <video autoplay loop muted playsinline src="~/videos/scrollvid.mp4" style="position: absolute; top: 88vh; height: 15vh; z-index: -1"></video>
+            <video autoplay loop muted playsinline src="~/videos/scrollvid.mp4" style="position: absolute; top: 90vh; height: 10vh; z-index: -1"></video>
         </div>
     </section>
-    <section id="bullet" style="width: 100%; background: #0d6efd; display: flex; color: white; justify-content:space-around; padding: 1.5vw 3vw ">
-        <div style="display: flex; flex-direction: column; width: 20vw">
-            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 4vh;" /><p style="font-size: 2.5vh; font-weight: 500">Strap</p></div>
+    @* Bullet Section *@
+    <section id="bullet" style="width: 100%; background: #0d6efd; display: flex; color: white; column-gap: 6.5vw; justify-content:space-around; padding: 6vh 6.5vw" class="shadow">
+        <div style="display: flex; flex-direction: column; width: 25vw">
+            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 6vh;" /><p style="font-size: 3.5vh; font-weight: 500">Strap</p></div>
             <p style="text-align:justify;font-size: 1.5vh">
                 Our Straps are made with quality materials depends on the type. Leather straps are made with high quality cow or crocodile hide.
                 Rubber straps are made with double shot abs for extra elasticity. And for Metal straps we used combinations of carbon fiber with aluminum to make it lightweight.
             </p>
         </div>
-        <div style="display: flex; flex-direction: column; width: 20vw">
-            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 4vh;" /><p style="font-size: 2.5vh; font-weight: 500">Jewel</p></div>
+        <div style="display: flex; flex-direction: column; width: 25vw">
+            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 6vh;" /><p style="font-size: 3.5vh; font-weight: 500">Jewel</p></div>
             <p style="text-align:justify;font-size: 1.5vh">Our Jewels are from and hand-carfted by our trusted gemologist, who works everyday on the fields, mountains, riverbeds and forests together with world-renowed jewelers. Jewels will then be sent to our QA for more quality assurance.</p>
         </div>
-        <div style="display: flex; flex-direction: column; width: 20vw">
-            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 4vh;" /><p style="font-size: 2.5vh; font-weight: 500">Case</p></div>
+        <div style="display: flex; flex-direction: column; width: 25vw">
+            <div style="display: flex"><img src="~/images/quality-icon.png" style="height: 6vh;" /><p style="font-size: 3.5vh; font-weight: 500">Case</p></div>
             <p style="text-align:justify;font-size: 1.5vh">Our Cases are made according to the consumers request. We can make it with carbon fiber to be lightweight mixed with choice or metals, and well, if they don't want the extra light, we can opt to use pure metal materials.</p>
         </div>
     </section>
-    <section id="propositions" style="width: 100%; background: #0d6efd; border-top: 2px white solid; display: flex; flex-direction: column; color: white; padding: 3vw 3vw">
-        <div style="display:flex; justify-content: center">
-            <div style="width: 50vw;">
-                <p style="font-size: 2.5vh; font-weight: 500">IP68 Rating</p>
+    @* Proposition Section *@
+    <section id="propositions" style="width: 100%; display: flex; flex-direction: column; padding: 6vh 6.5vw" class="shadow">
+        <div style="display:flex; justify-content:center; align-items: center">
+            <div style="width: 50vw; padding-right: 10vw">
+                <p style="font-size: 3.5vh; font-weight: 700; margin: 0">
+                    SCREW DOWN CROWN AND O’RINGS
+                </p>
+                <p style="font-size: 2vh; font-weight: 700">A perfect seal system</p>
+                <p style="text-align:justify;font-size: 1.5vh; width: 100%">
+                    The screw-down Clockwork crowns of the Clockwork Neptunian, CO-1, Delfin and Grand Ocean collections are threaded and are screwed to the case with a matching threaded tube. The crown now sits perfectly on the case and is secured.  These Clockwork crowns also feature a double O-ring, a patented Clockwork invention from 1961. These special crowns have two seals that are pressed together and seal even the smallest openings when the crown is tightened – ensuring water resistance. A screw-down Clockwork crown is an essential feature for any Clockwork watch you plan to swim and dive with.
+                    <br /><br />Also known as “gaskets”, O’rings are made of rubber and nylon which form watertight seals at the joints where the crystal, case back and crown meet the watch case. If the Clockwork watch is a chronograph, the chronograph pushers will also have gaskets. Highly water-resistant Clockwork watches (300 meters and more) always feature double O’ring gaskets an Clockwork invention from 1961.
+                </p>
             </div>
-            <img class="shadow-sm" src="~/images/ip68.jpg" style="border-radius: 2vw; width: 50vw" />
+            <video autoplay muted playsinline src="~/videos/arrowVid.mp4" style="height: 25vh; transform: translate(-6vw, -1vh) rotate(25deg)"></video>
+            @* <img src="~/images/curve-arrow.png" style="height: 25vh; transform: translate(-6vw, -1vh) rotate(40deg)"/> *@
+            <img class="shadow" src="~/images/1.jpg" style="border-radius: 2vw; height: 50vh" />
         </div>
-        <div style="display:flex;justify-content: center">
-            <img class="shadow-sm" src="~/images/ip68.jpg" style="border-radius: 2vw; width: 50vw" />
+        <div style="display:flex;justify-content: center; align-items: center; padding-left: 5.5vw">
+            <img src="~/images/3.jpg" style="border-radius: 2vw; height: 50vh; margin-right: 5vw" />
+            <video autoplay muted playsinline src="~/videos/arrowVid.mp4" style="height: 25vh; transform: translate(-1.5vw, -1vh) rotate(0deg) scaleX(-1); border: none"></video>
             <div style="width: 50vw;">
-                <p style="font-size: 2.5vh; font-weight: 500">IP68 Rating</p>
+                <p style="font-size: 3.5vh; font-weight: 700; margin: 0">
+                    REINFORCED CASEBACK
+                </p>
+                <p style="font-size: 2vh; font-weight: 700">A movement protection</p>
+                <p style="text-align:justify;font-size: 1.5vh; width: 100%">
+                    Clockwork uses for its highly water-resistant high performance watches screw-in case backs. These ultra strong case backs are threaded and screwed into the actual case. This creates a double seal, using both the threading and the gasket as a seal. Clockwork diving watches with water resistant ratings greater than 200m/660ft will have this type of case back.
+                </p>
             </div>
+        </div>
+        <div style="display:flex; justify-content: center; align-items: center">
+            <div style="width: 50vw; padding-right: 10vw">
+                <p style="font-size: 3.5vh; font-weight: 700; margin: 0">
+                    HELIUM ESCAPE VALVE
+                </p>
+                <p style="font-size: 2vh; font-weight: 700">No pressure allowed in the case</p>
+                <p style="text-align:justify;font-size: 1.5vh; width: 100%">
+                    The Helium Escape/Relief Valve is used only in extreme deep diving expeditions when a diver operates from a diving bell. As the bell is lowered pressure begins to increases and helium is added to the breathing mix. The helium is added to remove toxic air created by the extreme depth.
+                    <br /><br />Helium is one of the smallest molecules and will seep into the watch through the seals until the air pressure in the watch equals the air pressure in the diving bell. As the diving bell surfaces and decompresses, the helium needs to escape from the watch at the same speed as the decompression – otherwise the pressure in the watch will pop the crystal off. To avoid that, Clockwork developed the automatic helium escape valve which allows the helium to escape faster than it seeps in. The automatic Clockwork Helium Escape valve can be find in the following collections: C0-1 and Neptunian.
+                </p>
+            </div>
+            <video autoplay muted playsinline src="~/videos/arrowVid.mp4" style="height: 25vh; transform: translate(-6vw, -1vh) rotate(25deg)"></video>
+            <img class="shadow" src="~/images/2-1.jpg" style="border-radius: 2vw; height: 50vh" />
         </div>
     </section>
-    <section id="carousel" style="width: 100%;  height: 35vh; background: #0d6efd; border-top: 2px white solid">
+    @* Carousel Section *@
+    <section id="carousel" style="width: 100%;  height: 35vh; background: #0d6efd" class="shadow">
+        <!-- Carousel wrapper -->
+        <div id="carouselBasicExample" class="carousel slide carousel-fade" data-mdb-ride="carousel">
+            <!-- Indicators -->
+            <div class="carousel-indicators">
+                <button type="button"
+                        data-mdb-target="#carouselBasicExample"
+                        data-mdb-slide-to="0"
+                        class="active"
+                        aria-current="true"
+                        aria-label="Slide 1"></button>
+                <button type="button"
+                        data-mdb-target="#carouselBasicExample"
+                        data-mdb-slide-to="1"
+                        aria-label="Slide 2"></button>
+                <button type="button"
+                        data-mdb-target="#carouselBasicExample"
+                        data-mdb-slide-to="2"
+                        aria-label="Slide 3"></button>
+            </div>
+
+            <!-- Inner -->
+            <div class="carousel-inner">
+                <!-- Single item -->
+                <div class="carousel-item active">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(15).webp" class="d-block w-100" alt="Sunset Over the City" />
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>First slide label</h5>
+                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                    </div>
+                </div>
+
+                <!-- Single item -->
+                <div class="carousel-item">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(22).webp" class="d-block w-100" alt="Canyon at Nigh" />
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+
+                <!-- Single item -->
+                <div class="carousel-item">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(23).webp" class="d-block w-100" alt="Cliff Above a Stormy Sea" />
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Third slide label</h5>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Inner -->
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- Carousel wrapper -->
     </section>
     <section id="watches" style="width: 100%; height: 100vh">
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; gap:2vw;">
