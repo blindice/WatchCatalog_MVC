@@ -16,7 +16,7 @@ namespace WatchCatalog_MVC.Services
 
         public HttpClientService( IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
-        public async Task<WatchesPaginationViewModel> GetPaginatedWatchesAsync(WatchPageParameters pageParams)
+        public async Task<WatchesPaginationViewModel> GetPaginatedWatchesAsync(WatchPageParameters pageParams, CancellationToken cancellationToken)
         {
             var httpClient = _httpClientFactory.CreateClient("WatchClient");
 
@@ -25,7 +25,7 @@ namespace WatchCatalog_MVC.Services
             if (!string.IsNullOrEmpty(pageParams.SearchString))
                 uri += $"&SearchString={pageParams.SearchString}";
 
-            using (var response = await httpClient.GetAsync(uri))
+            using (var response = await httpClient.GetAsync(uri, cancellationToken))
             {
                 response.EnsureSuccessStatusCode();
 

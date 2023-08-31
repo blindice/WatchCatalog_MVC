@@ -6,7 +6,7 @@ namespace WatchCatalog_MVC.Interfaces
 {
     public interface IHttpClientService
     {
-        Task<WatchesPaginationViewModel> GetPaginatedWatchesAsync(WatchPageParameters pageParams);
+        Task<WatchesPaginationViewModel> GetPaginatedWatchesAsync(WatchPageParameters pageParams, CancellationToken cancellationToken);
 
         Task<WatchDetailsViewModel> GetWatchDetailsAsync(int id);
 

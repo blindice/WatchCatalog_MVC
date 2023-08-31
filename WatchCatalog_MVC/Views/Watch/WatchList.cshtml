@@ -20,7 +20,7 @@
 
 @section Scripts{
     <script>
-       
+
         $(async () => {
             let getAllWatches = async (pageNumber = 1, pageSize = 10) => {
                 let searchString = document.getElementById("searchInput").value;
@@ -93,8 +93,16 @@
             await getAllWatches();
 
             //search
-            $("#searchInput").keyup($.debounce(1000, function (e) {
-                console.log("It works!");
-            }))
+            var xhr = null;
+            var timeout = null;
+            $("#searchInput").keyup(() => {
+                clearTimeout(timeout);
+                if (xhr != null)
+                    xhr.abort();
+                timeout = setTimeout(async function () {
+                    xhr = await getAllWatches();
+                }, 500);
+            })
+        })
     </script>
 }

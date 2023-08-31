@@ -29,9 +29,9 @@ namespace WatchCatalog_MVC.Controllers
         }
 
         [HttpGet("getwatches")]
-        public async Task<IActionResult> GetWatchesAsync([FromQuery] WatchPageParameters pageParams)
+        public async Task<IActionResult> GetWatchesAsync([FromQuery] WatchPageParameters pageParams, CancellationToken cancellationToken)
         {
-            var paginatedWatches = await _httpClientService.GetPaginatedWatchesAsync(pageParams);
+            var paginatedWatches = await _httpClientService.GetPaginatedWatchesAsync(pageParams, cancellationToken);
 
             return Ok(paginatedWatches);
         }
