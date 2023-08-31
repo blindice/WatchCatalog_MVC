@@ -23,6 +23,11 @@ namespace WatchCatalog_MVC.Controllers
             return View();
         }
 
+        public IActionResult WatchList(string searchString = "")
+        {
+            return View("WatchList",searchString);
+        }
+
         [HttpGet("getwatches")]
         public async Task<IActionResult> GetWatchesAsync([FromQuery] WatchPageParameters pageParams)
         {

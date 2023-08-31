@@ -1,0 +1,100 @@
+﻿@model string
+
+<div id="watchList-container" style="width: 100vw">
+    <section id="search" style="height: 15vh; width: 100vw; display: flex; align-items: end; justify-content: end; padding: 0vh 6.5vw">
+        <div>
+            <input type="text" class="form-control" id="searchInput" placeholder="Type here to Search...">
+        </div>
+    </section>
+    <section id="watchList" style="width: 100%;padding: 6vh 6.5vw">
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; gap:2.5vw;">
+            <div id="watchesContainer" style="display: flex; gap: 3vw; flex-wrap: wrap; font-family: 'Nunito', sans-serif">
+            </div>
+            <div id="pagination-container">
+                <ul class="pagination pagination-sm">
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts{
+    <script>
+       
+        $(async () => {
+            let getAllWatches = async (pageNumber = 1, pageSize = 10) => {
+                let searchString = document.getElementById("searchInput").value;
+                console.log(searchString)
+                await $.ajax({
+                    url: `@Url.Action("getwatches")?SearchString=${searchString}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
+                    method: "GET",
+                    beforeSend: () => {
+                        $("#watchesContainer").empty()
+                        $("#watchesContainer").html('<video autoplay loop muted playsinline src="/videos/loading.mp4" style="height: 30vh"></video>')
+                    },
+                    success: (res) => {
+                        //create watches cards
+                        $("#watchesContainer").empty()
+                        $.each(res.watchDTOs, (key, value) => {
+                            let createCard = (value) => {
+                                if (value.isActive) {
+                                    let card = $("<div>").addClass("card shadow-none").css("width", "15vw").css({ "height": "40vh", "cursor": "pointer", "border": "none" })
+                                    let imgContainer = $("<div>").addClass("card-img-top shadow-sm").css("width", "100%").css({ "height": "75%", "position": "relative", "overflow": "hidden", "display": "flex", "justify-content": "center", "align-items": "center", "border-radius": "2vh" })
+                                    let image = $(`<img src='${value.image}' />`).css("width", "100%").css("position", "absolute").css("margin", "auto")
+                                    let cardBody = $("<div>").addClass("card-body").css({ "text-overflow": "ellipsis", "padding": "1vh .5vw" })
+                                    let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName).css({ "font-weight": "700", "font-size": "1.5vh", "line-height": "1.5vh" })
+                                    let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description).css({ "font-weight": "700", "font-size": "1.5vh", "line-height": "1.5vh" })
+                                    let cardText = $("<p>").addClass("card-text").text(`Price: ฿ ${value.price}`).css({ "color": "#3b71ca", "font-weight": "700", "font-size": "1.5vh", "line-height": "1vh" })
+                                    card.click(() => {
+                                        window.location.href = `@Url.Action("Details")/${value.watchId}`
+                                    })
+                                    imgContainer.append(image)
+                                    cardBody.append(cardTitle, cardDesc, cardText)
+
+                                    return card.append(imgContainer, cardBody)
+                                }
+                            }
+                            $("#watchesContainer").append(createCard(value))
+                        })
+
+                        // create pagination
+                        $(".pagination").empty()
+                        let firstPagination = $("<li>").addClass(`page-item ${res.hasPrevious ? '' : 'disabled'}`).wrapInner(`<button class='page-link'>First</button>`)
+
+                        if (res.hasPrevious) firstPagination.click(async () => await getAllWatches(1))
+
+                        let lastPagination = $("<li>").addClass(`page-item ${res.hasNext && res.currentPage != res.totalPage ? '' : 'disabled'}`)
+                            .wrapInner(`<button class='page-link'>Last</button>`)
+
+                        if (res.hasNext && res.currentPage != res.totalPage) lastPagination.click(async () => await getAllWatches(res.totalPages))
+
+                        let paginationButtons = []
+
+                        for (let i = res.currentPage - 2; i <= res.currentPage + 2; i++) {
+                            let pageButton;
+                            if (i > 0 && i <= res.totalPages)
+                                pageButton = $("<li>").addClass("page-item").wrapInner($("<button>").addClass("page-link").text(i).click(async () => await getAllWatches(i)))
+
+                            if (i === res.currentPage)
+                                pageButton.addClass("active").children().off()
+
+                            paginationButtons.push(pageButton)
+                        }
+
+                        $(".pagination").append(firstPagination, paginationButtons, lastPagination)
+                    },
+                    error: (xhr, ajaxOptions, thrownError) => {
+                        console.log(xhr)
+                        window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
+                    }
+                })
+            }
+
+            await getAllWatches();
+
+            //search
+            $("#searchInput").keyup($.debounce(1000, function (e) {
+                console.log("It works!");
+            }))
+    </script>
+}

@@ -20,7 +20,12 @@ namespace WatchCatalog_MVC.Services
         {
             var httpClient = _httpClientFactory.CreateClient("WatchClient");
 
-            using (var response = await httpClient.GetAsync($"getwatches?PageNumber={pageParams.PageNumber}&PageSize={pageParams.PageSize}"))
+            var uri = $"getwatches?PageNumber={pageParams.PageNumber}&PageSize={pageParams.PageSize}";
+
+            if (!string.IsNullOrEmpty(pageParams.SearchString))
+                uri += $"&SearchString={pageParams.SearchString}";
+
+            using (var response = await httpClient.GetAsync(uri))
             {
                 response.EnsureSuccessStatusCode();
 

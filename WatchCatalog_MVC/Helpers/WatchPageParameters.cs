@@ -2,6 +2,7 @@
 {
     public class WatchPageParameters
     {
+        public string SearchString { get; set; } = string.Empty;
         const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;
         private int _pageSize = 10;
