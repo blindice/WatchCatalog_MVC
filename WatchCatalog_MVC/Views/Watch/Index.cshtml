@@ -58,10 +58,10 @@
     <section id="propositions" style="width: 100%; display: flex; flex-direction: column; padding: 6vh 6.5vw; font-family: 'Montserrat Alternates', sans-serif">
         <div style="display:flex; justify-content:center; align-items: center">
             <div style="width: 50vw; padding-right: 10vw">
-                <p style="font-size: 3.5vh; font-weight: 700; margin: 0">
+                <p style="font-size: 3.5vh; font-weight: 500; margin: 0">
                     SCREW DOWN CROWN AND O’RINGS
                 </p>
-                <p style="font-size: 2vh; font-weight: 700;color: #0d6efd">A perfect seal system</p>
+                <p style="font-size: 2vh; font-weight: 500;color: #0d6efd">A perfect seal system</p>
                 <p style="text-align:justify;font-size: 1.5vh; width: 100%; font-family: 'Nunito', sans-serif">
                     The screw-down Clockwork crowns of the Clockwork Neptunian, CO-1, Delfin and Grand Ocean collections are threaded and are screwed to the case with a matching threaded tube. The crown now sits perfectly on the case and is secured.  These Clockwork crowns also feature a double O-ring, a patented Clockwork invention from 1961. These special crowns have two seals that are pressed together and seal even the smallest openings when the crown is tightened – ensuring water resistance. A screw-down Clockwork crown is an essential feature for any Clockwork watch you plan to swim and dive with.
                     <br /><br />Also known as “gaskets”, O’rings are made of rubber and nylon which form watertight seals at the joints where the crystal, case back and crown meet the watch case. If the Clockwork watch is a chronograph, the chronograph pushers will also have gaskets. Highly water-resistant Clockwork watches (300 meters and more) always feature double O’ring gaskets an Clockwork invention from 1961.
@@ -75,10 +75,10 @@
             <img src="~/images/3.jpg" style="border-radius: 1vw; height: 50vh; margin-right: 5vw" />
             <video autoplay muted playsinline src="~/videos/arrowVid.mp4" style="height: 25vh; transform: translate(-1.5vw, -1vh) rotate(0deg) scaleX(-1); border: none"></video>
             <div style="width: 50vw;">
-                <p style="font-size: 3.5vh; font-weight: 700; margin: 0">
+                <p style="font-size: 3.5vh; font-weight: 500; margin: 0">
                     REINFORCED CASEBACK
                 </p>
-                <p style="font-size: 2vh; font-weight: 700;color: #0d6efd">A movement protection</p>
+                <p style="font-size: 2vh; font-weight: 500;color: #0d6efd">A movement protection</p>
                 <p style="text-align:justify;font-size: 1.5vh; width: 100%; font-family: 'Nunito', sans-serif">
                     Clockwork uses for its highly water-resistant high performance watches screw-in case backs. These ultra strong case backs are threaded and screwed into the actual case. This creates a double seal, using both the threading and the gasket as a seal. Clockwork diving watches with water resistant ratings greater than 200m/660ft will have this type of case back.
                 </p>
@@ -86,10 +86,10 @@
         </div>
         <div style="display:flex; justify-content: center; align-items: center">
             <div style="width: 50vw; padding-right: 10vw">
-                <p style="font-size: 3.5vh; font-weight: 700; margin: 0">
+                <p style="font-size: 3.5vh; font-weight: 500; margin: 0">
                     HELIUM ESCAPE VALVE
                 </p>
-                <p style="font-size: 2vh; font-weight: 700; font-family: 'Montserrat Alternates', sans-serif;color: #0d6efd">No pressure allowed in the case</p>
+                <p style="font-size: 2vh; font-weight: 500; font-family: 'Montserrat Alternates', sans-serif;color: #0d6efd">No pressure allowed in the case</p>
                 <p style="text-align:justify;font-size: 1.5vh; width: 100%; font-family: 'Nunito', sans-serif">
                     The Helium Escape/Relief Valve is used only in extreme deep diving expeditions when a diver operates from a diving bell. As the bell is lowered pressure begins to increases and helium is added to the breathing mix. The helium is added to remove toxic air created by the extreme depth.
                     <br /><br />Helium is one of the smallest molecules and will seep into the watch through the seals until the air pressure in the watch equals the air pressure in the diving bell. As the diving bell surfaces and decompresses, the helium needs to escape from the watch at the same speed as the decompression – otherwise the pressure in the watch will pop the crystal off. To avoid that, Clockwork developed the automatic helium escape valve which allows the helium to escape faster than it seeps in. The automatic Clockwork Helium Escape valve can be find in the following collections: C0-1 and Neptunian.
@@ -187,12 +187,7 @@
     </section>
     <partial name="_Modal" />
     @* Back to Top *@
-    <button type="button"
-            class="btn btn-dark btn-floating btn-md"
-            id="btn-back-to-top"
-            style="position: fixed;bottom: 2vh;right: 10px; display: none; z-index: 1000">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <partial name="_BackToTopButton" />
 </div>
 
 
@@ -295,34 +290,7 @@
                         console.log(err)
                     }
                 })
-            }
-
-            // Back TO top Button
-            //Get the button
-            let mybutton = document.getElementById("btn-back-to-top");
-
-            // When the user scrolls down 20px from the top of the document, show the button
-            window.onscroll = function () {
-                scrollFunction();
-            };
-
-            function scrollFunction() {
-                if (
-                    document.body.scrollTop > 20 ||
-                    document.documentElement.scrollTop > 20
-                ) {
-                    mybutton.style.display = "block";
-                } else {
-                    mybutton.style.display = "none";
-                }
-            }
-            // When the user clicks on the button, scroll to the top of the document
-            mybutton.addEventListener("click", backToTop);
-
-            function backToTop() {
-                document.body.scrollTop = 0;
-                document.documentElement.scrollTop = 0;
-            }
+            }            
         })
     </script>
 }

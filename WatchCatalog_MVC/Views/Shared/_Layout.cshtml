@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WatchCatalog_MVC.styles.css" asp-append-version="true" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
@@ -21,7 +24,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="nav justify-content-center">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Watch" asp-action="Index">Home</a>
                         </li>
@@ -39,9 +42,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - WatchCatalog_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer text-muted" style="background: #0d6efd">
+        <div class="container" style="display:flex; justify-content: center; align-items: center; color: white">
+            &copy; 2023 ClockWork
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

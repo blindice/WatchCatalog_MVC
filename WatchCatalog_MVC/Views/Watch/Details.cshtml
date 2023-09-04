@@ -1,35 +1,85 @@
 ﻿@using WatchCatalog_MVC.ViewModels;
 @model WatchDetailsViewModel
 
+<div id="watchList-container" style="width: 100vw">
+    <section id="watchDetails" style="height: 100vh; width: 100vw; display: flex; align-items: end; justify-content: center; padding: 0vh 6.5vw; column-gap: 5vw; padding-top: 13vh">
+        <div class="@Model.GetProductAvailabilityClass()" style="width: 50%; display: flex; justify-content: center;align-self: start; height: 100%; position: relative">
+            <img src="@Model.Image" style="height: 95%; border-radius: 2vh;"/>
+        </div>
+        <div style="width: 50%;align-self: start; height: 100%; display: flex; flex-direction: column; justify-content: start; padding-right: 7vw; row-gap: 1vh">
+            <div style="font-family: 'Nunito', sans-serif">
+                <div><p style="font-size: 3.5vh; font-family: 'Montserrat Alternates', sans-serif; font-weight: 500">@Model.WatchName</p></div>
+                <p style="font-size: 2vh; font-weight: 500">฿ @Math.Round(Model.Price, 2)</p>
+                <p style="text-align: justify; font-size: 1.5vh;"><em>@Model.Short_description</em></p>
+                <p style="text-align: justify; font-size: 1.5vh;">@Model.Full_Description</p>
 
-<div style="display: flex; width: 100vw; column-gap: 10vw; justify-content: center">
-    <img src="@Model.Image" style="height: 70vh" />
-    <div>
-        <h1>@Model.WatchId @Model.WatchName</h1>
-        <h3>@Model.Short_description</h3>
-        <p>@Model.Price</p>
-        <p>@Model.Caliber</p>
-        <p>@Model.Strap</p>
-        <p>@Model.Jewel</p>
-        <p>@Model.Case</p>
-        <p>@Model.Chronograph</p>
-        <p>@Model.Diameter</p>
-        <p>@Model.Weight</p>
-        <p>@Model.Height</p>
-        <p>@Model.Thickness</p>
-        <p>@Model.Full_Description</p>
-    </div>
+            </div>
+            <div style="margin-bottom: 2vh; display:flex; width: 100%; justify-content:space-between; column-gap: 1vw">
+                <button id="btnToggle" class="@Model.ToggleButtonClass()" style="width:25%">@Model.ToggleButtonName()</button>
+                <button id="btnUpdate" class="btn btn-outline-primary" style="width:25%">Edit</button>
+                <button id="btnDelete" class="btn btn-outline-primary" style="width:25%">Delete</button>
+                <a class="btn btn-outline-primary" style="width:25%" href='javascript:history.go(-1)'>Back</a>
+            </div>
+            <div class="accordion accord" id="accordionExample">
+                <div class="accordion-item" style="font-family: 'Nunito', sans-serif">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Materials
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body" style="display: grid; grid-template-columns: 3vw 1fr">
+                            <p style="font-size: 1.5vh; font-weight: 700">Strap:</p>
+                            <p style="font-size: 1.5vh;">@Model.Strap</p>
+                            <p style="font-size: 1.5vh;font-weight: 700">Jewel:</p>
+                            <p style="font-size: 1.5vh;">@Model.Jewel</p>
+                            <p style="font-size: 1.5vh;font-weight: 700">Case:</p>
+                            <p style="font-size: 1.5vh;">@Model.Case</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item" style="font-family: 'Nunito', sans-serif">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Specifications
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body" style="display: grid; grid-template-columns: 5.5vw 1fr">
+                            <p style="font-size: 1.5vh; font-weight: 700">Caliber:</p>
+                            <p style="font-size: 1.5vh;">@Model.Caliber</p>
+                            <p style="font-size: 1.5vh; font-weight: 700">Chronograph:</p>
+                            <p style="font-size: 1.5vh;">@Model.Chronograph</p>
+                            <p style="font-size: 1.5vh; font-weight: 700">Diameter:</p>
+                            <p style="font-size: 1.5vh;">@Model.Diameter mm</p>
+                            <p style="font-size: 1.5vh; font-weight: 700">Weight:</p>
+                            <p style="font-size: 1.5vh;">@Model.Weight g</p>
+                            <p style="font-size: 1.5vh; font-weight: 700">Height:</p>
+                            <p style="font-size: 1.5vh;">@Model.Height mm</p>
+                            <p style="font-size: 1.5vh; font-weight: 700">Thickness:</p>
+                            <p style="font-size: 1.5vh;">@Model.Thickness mm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <partial name="_WatchList" />
+    <partial name="_Modal" />
+    <partial name="_BackToTopButton" />
 </div>
-<button id="btnToggle" class="@Model.ToggleButtonClass()">@Model.ToggleButtonName()</button>
-<a asp-action="Index" class="btn btn-primary">Back</a>
-<button id="btnUpdate" class="btn btn-warning">Update</button>
-<button id="btnDelete" class="btn btn-warning">Delete</button>
-
-<partial name="_Modal" />
 
 @section Scripts{
     <script type="module">
         $(() => {
+            //create watchlist
+            // let relatedSearchStrings = ['@Model.Strap', '@Model.Jewel', '@Model.Case', '@Model.Caliber', '@Model.Chronograph']
+            // const randomIndex = Math.floor(Math.random() * relatedSearchStrings.length);
+            // const relatedSearchString = relatedSearchStrings[randomIndex];
+            $("#btnAdd").css({ "visibility": "hidden" })
+            createWatchListPartialScript()
+
             // modal
             $("#btnUpdate").click(() => callModalBody({ url: '@Url.Action("ModalBody")', method: "PUT", id: @Model.WatchId, submitFn: formSubmit }))
 

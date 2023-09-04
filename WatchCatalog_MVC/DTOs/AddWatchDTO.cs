@@ -9,11 +9,10 @@ namespace WatchCatalog_MVC.DTOs
 
         [StringLength(20)]
         public string WatchName { get; set; } = null!;
-        [StringLength(50)]
+        [StringLength(500)]
         public string Short_description { get; set; } = null!;
-        [StringLength(100)]
         public string Full_Description { get; set; } = null!;
-        [Column(TypeName = "decimal(13, 4)")]
+        [Column(TypeName = "decimal(13, 2)")]
         [Range(1.0, double.MaxValue, ErrorMessage = "The field {0} must be greater than {1} and less than {2}.")]
         public decimal Price { get; set; }
         [StringLength(50)]

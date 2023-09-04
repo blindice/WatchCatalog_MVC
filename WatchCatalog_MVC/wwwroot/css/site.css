@@ -17,3 +17,31 @@ body {
     margin-bottom: 60px;
     overflow-x: hidden;
 }
+
+.not-available:before {
+    content: "";
+    background: rgba(255,255,255,0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.not-available:after {
+    content: "OUT OF STOCK";
+    color: #333;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 100%;
+    text-align: center;
+    width: 70px;
+    height: 70px;
+    top: calc(50% - 35px);
+    left: calc(50% - 35px);
+    font-size: 90%;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}

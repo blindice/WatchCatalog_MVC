@@ -12,11 +12,10 @@ namespace WatchCatalog_MVC.ViewModels
         [Required]
         [StringLength(20)]
         public string WatchName { get; set; } = null!;
-        [StringLength(50)]
+        [StringLength(500)]
         public string Short_description { get; set; } = null!;
-        [StringLength(100)]
         public string Full_Description { get; set; } = null!;
-        [Column(TypeName = "decimal(13, 4)")]
+        [Column(TypeName = "decimal(13, 2)")]
         [Range(1.0, double.MaxValue, ErrorMessage = "Price must be atleast ฿1")]
         public decimal Price { get; set; }
         [StringLength(50)]
@@ -47,6 +46,8 @@ namespace WatchCatalog_MVC.ViewModels
 
         public string ToggleButtonName() => IsActive ? "Disable" : "Enable";
 
-        public string ToggleButtonClass() => IsActive ? "btn btn-danger" : "btn btn-success";
+        public string ToggleButtonClass() => IsActive ? "btn btn-outline-danger" : "btn btn-outline-success";
+
+        public string GetProductAvailabilityClass() => IsActive ? string.Empty : "not-available";
     }
 }
