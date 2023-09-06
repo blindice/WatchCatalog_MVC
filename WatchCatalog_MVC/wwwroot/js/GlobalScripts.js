@@ -51,7 +51,7 @@ const createShimmers = (shimmerCount) => {
 }
 
 const createRandomRate = () => {
-    let rating = $("<p>").text((Math.round(Math.random() * (5 - 4.56) + 4.56 * 100) / 100).toFixed(2)).css({ "position": "absolute", "top": ".5vh", "right": ".5vw", "font-size": "1.5vh" }).prepend('<img src="/images/star.png" style="height: 1.3vh; position: absolute; right: 1.6vw; top: .3vh"/>')
+    let rating = $("<p>").text((Math.round(Math.random() * (5 - 4.56) + 4.56 * 100) / 100).toFixed(2)).css({ "position": "absolute", "top": ".5vh", "right": ".5vw", "font-size": "2vh" }).prepend('<img src="/images/star.png" style="height: 1.7vh; position: absolute; right: 2vw; top: .47vh"/>')
 
     return rating
 }
@@ -85,9 +85,9 @@ let createWatchLists = async (pageNumber = 1, pageSize = 10) => {
                         let newTag = $("<span>")
                         let image = $(`<img src='${value.image}' />`).css("width", "100%").css("position", "absolute").css("margin", "auto")
                         let cardBody = $("<div>").addClass("card-body").css({ "text-overflow": "ellipsis", "padding": "1vh .5vw", "position": "relative" })
-                        let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName).css({ "font-weight": "700", "font-size": "1.5vh", "line-height": "1.5vh" })
-                        let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description).css({ "font-weight": "700", "font-size": "1.5vh", "line-height": "1.5vh" })
-                        let cardText = $("<p>").addClass("card-text").text(`Price: ฿ ${value.price}`).css({ "font-weight": "700", "font-size": "1.5vh", "line-height": "1vh" })
+                        let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.5vh", "width": "75%" })
+                        let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.5vh" })
+                        let cardText = $("<p>").addClass("card-text").text(`Price: ฿ ${value.price.toFixed(2) }`).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1vh" })
                         let cardRate = createRandomRate();
 
                         card.click(() => {

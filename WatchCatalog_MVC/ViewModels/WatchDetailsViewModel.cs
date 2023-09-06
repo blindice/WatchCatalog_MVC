@@ -46,7 +46,7 @@ namespace WatchCatalog_MVC.ViewModels
 
         public string ToggleButtonName() => IsActive ? "Disable" : "Enable";
 
-        public string ToggleButtonClass() => IsActive ? "btn btn-outline-danger" : "btn btn-outline-success";
+        public string ToggleButtonClass() => IsActive ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm";
 
         public string GetProductAvailabilityClass() => IsActive ? string.Empty : "not-available";
     }
