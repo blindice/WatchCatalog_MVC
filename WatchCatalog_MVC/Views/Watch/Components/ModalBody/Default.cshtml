@@ -1,90 +1,240 @@
 ﻿@using WatchCatalog_MVC.ViewModels;
 @model WatchDetailsViewModel
 
-<form id="modalForm">
-    @if (string.IsNullOrEmpty(Model.Image))
-    {
-        <img id="imageViewer" src="~/images/imagetemplate.png" style="height: 100px" />
+<style>
+    .control-container {
+        display: grid;
+        grid-template-columns: 8vw 20vw;
+        font-size: 2vh;
+        grid-column-gap: 1vh;
+        position: relative
     }
-    else
-    {
-        <img id="imageViewer" src="@Model.Image" style="height: 100px" />
+
+    .error-message {
+        position: absolute;
     }
-    <input type="file"
-           id="imageFile"
-           data-max-file-size="3MB"
-           data-max-files="3"
-           accept="image/png, image/jpeg, image/gif" />
-    <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input type="text" class="form-control form-control-sm" asp-for="WatchName">
-        <span asp-validation-for="WatchName" class="text-danger"></span>
+
+    span {
+        font-size: 1vh
+    }
+
+    .input-validation-error:focus {
+        color: #212529;
+        background-color: #fff;
+        border-color: #dc3545;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+
+    .form-grouping {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 1vw;
+        grid-row-gap: 3vh;
+        margin-bottom: 2vh
+    }
+
+    .input-container p {
+        font-size: 1.3vh;
+        font-weight: 700;
+        color: #0d6efd
+    }
+
+    .image-upload-container {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 2vh
+    }
+
+    .image-container {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 2vh
+    }
+
+    .detail-card {
+        width: 75%;
+        height: 83%;
+        border: none;
+    }
+
+    .form-label:after{
+        content: "*";
+        color: red;
+        margin-left: .1vw;
+    }
+</style>
+
+<form id="modalForm" style="display: flex; width: 90vw; font-family: 'Nunito', sans-serif">
+    <div class="image-upload-container">
+        <div class="card shadow-sm detail-card">
+            <div class="image-container card-img">
+                @if (string.IsNullOrEmpty(Model.Image))
+                {
+                    <img id="imageViewer" src="~/images/imagetemplate.png" style="height: 60vh" />
+                }
+                else
+                {
+                    <img id="imageViewer" src="@Model.Image" style="height: 60vh" />
+                }
+            </div>
+        </div>
+        <div class="input-group mb-3" style="width: 75%">
+            <input type="file" class="form-control" id="imageFile" data-max-file-size="3MB"
+                   data-max-files="3"
+                   accept="image/png, image/jpeg, image/gif">
+        </div>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Short Description</label>
-        <input type="text" class="form-control  form-control-sm" asp-for="Short_description">
-        <span asp-validation-for="Short_description" class="text-danger"></span>
-    </div>
-    <label class="form-label">Price</label>
-    <div class="input-group mb-3">
-        <span class="input-group-text">฿</span>
-        <input type="text" class="form-control form-control-sm" asp-for="Price">
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Chronograph</label>
-        <input type="text" class="form-control form-control-sm" asp-for="Chronograph">
-        <span asp-validation-for="Chronograph" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Jewel</label>
-        <input type="text" class="form-control form-control-sm" asp-for="Jewel">
-        <span asp-validation-for="Jewel" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Case</label>
-        <input type="text" class="form-control form-control-sm" asp-for="Case">
-        <span asp-validation-for="Case" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Strap</label>
-        <input type="text" class="form-control form-control-sm" asp-for="Strap">
-        <span asp-validation-for="Strap" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Caliber</label>
-        <input type="text" class="form-control form-control-sm" asp-for="Caliber">
-        <span asp-validation-for="Caliber" class="text-danger"></span>
-    </div>
-    <label class="form-label">Weight</label>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control form-control-sm" asp-for="Weight">
-        <span class="input-group-text">g</span>
-        <span asp-validation-for="Weight" class="text-danger"></span>
-    </div>
-    <label class="form-label">Height</label>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control form-control-sm" asp-for="Height">
-        <span class="input-group-text">mm</span>
-        <span asp-validation-for="Height" class="text-danger"></span>
-    </div>
-    <label class="form-label">Diameter</label>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control form-control-sm" asp-for="Diameter">
-        <span class="input-group-text">mm</span>
-        <span asp-validation-for="Diameter" class="text-danger"></span>
-    </div>
-    <label class="form-label">Diameter</label>
-    <label class="form-label">Thickness</label>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control form-control-sm" asp-for="Thickness">
-        <span class="input-group-text">mm</span>
-        <span asp-validation-for="Thickness" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Full Description</label>
-        <textarea class="form-control" rows="3" asp-for="Full_Description" style="resize: none"></textarea>
-        <span asp-validation-for="Full_Description" class="text-danger"></span>
+
+    <div class="input-container" style="width: 70%; display: flex; flex-direction: column; row-gap: 1vh">
+        <p>Basic Information</p>
+        <div class="form-grouping">
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Name</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control " asp-for="WatchName">
+                    <span asp-validation-for="WatchName" class="text-danger error-message"></span>
+                </div>
+            </div>
+
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Price</label>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group">
+                        <span class="input-group-text">฿</span>
+                        <input type="text" class="form-control " asp-for="Price">
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Short Description</label>
+                </div>
+                <div class="col-auto">
+                    <textarea class="form-control" rows="3" asp-for="Short_description" style="resize: none"></textarea>
+                    <span asp-validation-for="Short_description" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Full Description</label>
+                </div>
+                <div class="col-auto">
+                    <textarea class="form-control" rows="3" asp-for="Full_Description" style="resize: none"></textarea>
+                    <span asp-validation-for="Full_Description" class="text-danger error-message"></span>
+                </div>
+            </div>
+        </div>
+        <p>Parts Materials</p>
+        <div class="form-grouping">
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Jewel</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control " asp-for="Jewel">
+                    <span asp-validation-for="Jewel" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Case</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control " asp-for="Case">
+                    <span asp-validation-for="Case" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Strap</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control " asp-for="Strap">
+                    <span asp-validation-for="Strap" class="text-danger error-message"></span>
+                </div>
+            </div>
+        </div>
+        <p>Specifications</p>
+        <div class="form-grouping">
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Chronograph</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control " asp-for="Chronograph">
+                    <span asp-validation-for="Chronograph" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Caliber</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control " asp-for="Caliber">
+                    <span asp-validation-for="Caliber" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Weight</label>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control " asp-for="Weight">
+                        <span class="input-group-text">g</span>
+                    </div>
+                    <span asp-validation-for="Weight" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Height</label>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control " asp-for="Height">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                    <span asp-validation-for="Height" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Diameter</label>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control " asp-for="Diameter">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                    <span asp-validation-for="Diameter" class="text-danger error-message"></span>
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="col-auto">
+                    <label class="form-label">Thickness</label>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control " asp-for="Thickness">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                    <span asp-validation-for="Thickness" class="text-danger error-message"></span>
+                </div>
+            </div>
+        </div>
     </div>
 </form>
 

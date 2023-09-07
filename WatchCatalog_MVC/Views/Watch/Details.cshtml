@@ -20,7 +20,7 @@
                 <button id="btnDelete" class="btn btn-outline-primary btn-sm" style="width:25%">Delete</button>
                 <a class="btn btn-outline-primary btn-sm" style="width:25%; display: flex; align-items: center; justify-content:center" href='javascript:history.go(-1)'>Back</a>
             </div>
-            <div class="accordion accord" id="accordionExample">              
+            <div class="accordion accord" id="accordionExample">
                 <div class="accordion-item" style="font-family: 'Nunito', sans-serif">
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -74,7 +74,7 @@
 </div>
 
 @section Scripts{
-    <script type="module">
+    <script>
         $(() => {
             //create watchlist
             // let relatedSearchStrings = ['@Model.Strap', '@Model.Jewel', '@Model.Case', '@Model.Caliber', '@Model.Chronograph']
@@ -84,7 +84,12 @@
             createWatchListPartialScript()
 
             // modal
-            $("#btnUpdate").click(() => callModalBody({ url: '@Url.Action("ModalBody")', method: "PUT", id: @Model.WatchId, submitFn: formSubmit }))
+            const submitBtn = $("#btnSubmitModal")
+            const submitBtnBeforeText = submitBtn.text()
+
+            $("#btnUpdate").click(function () {
+                callModalBody($(this), { url: '@Url.Action("ModalBody")', method: "PUT", id: @Model.WatchId, submitFn: formSubmit })
+            })
 
 
             var formSubmit = (event) => {
@@ -115,23 +120,51 @@
                     mimeType: "multipart/form-data",
                     contentType: false,
                     data: form,
-                    error: (err) => {
-                        alert(err)
+                    beforeSend: () => {
+                        submitBtn.attr("disabled", "disabled")
+                        submitBtn.text("Loading...")
+                    },
+                    success: (res) => {
+                        submitBtn.removeAttr("disabled")
+                        submitBtn.text(submitBtnBeforeText)
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 1111500
+                        }).then(() => {
+                            location.reload(true);
+                        })
+                    },
+                    error: (xhr, ajaxOptions, thrownError) => {
+                        if (xhr.status == 404) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Your work has been saved',
+                                showConfirmButton: false,
+                                timer: 111500
+                            }).then(() => {
+                                submitBtn.removeAttr("disabled")
+                                submitBtn.text(submitBtnBeforeText)
+                            })
+                        }
                     }
-                }).done(function (response) {
-                    console.log(response);
-                    // location.reload(true);
-                });
+                })
             }
 
             //toggle
-            $("#btnToggle").click(async () => {
+            $("#btnToggle").click(async function () {
                 await $.ajax({
                     type: 'POST',
                     url: '/togglewatch',
                     data: JSON.stringify({ watchId: @Model.WatchId, isActive: @Model.IsActive.ToString().ToLower()}),
                     dataType: 'json',
                     contentType: "application/json",
+                    beforeSend: () => {
+                        $(this).attr("disabled", "disabled")
+                        $(this).text("Loading...")
+                    },
                     success: (result) => {
                         location.reload(true);
                     },

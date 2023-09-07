@@ -1,5 +1,8 @@
-﻿const callModalBody = async (params) => {
-    $("#btnSubmitModal").click(() => {
+﻿const callModalBody = async (control, params) => {
+    const beforeControlText = control.text();
+    const submitBtn = $("#btnSubmitModal")
+
+    submitBtn.click(() => {
         if ($("#partialModal .modal-body form").valid()) {
             $("#partialModal .modal-body form").submit()
         }
@@ -14,6 +17,11 @@
         url: params.url,
         data: JSON.stringify(params.id),
         contentType: 'application/json',
+        beforeSend: () => {
+            control.attr("disabled", "disabled")
+            control.text(" Loading...")
+            control.prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
+        },
         success: (res) => {
             $('#partialModal .modal-body form').off()
             $("#partialModal .modal-body").html(res)
@@ -27,6 +35,9 @@
                 }
                 uploadimg.readAsDataURL(e.target.files[0]);
             })
+
+            control.removeAttr("disabled")
+            control.text(beforeControlText)
             $('#partialModal').modal('show');
         },
         error: (err) => {

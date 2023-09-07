@@ -180,7 +180,7 @@
     <section id="watches" style="width: 100%;padding: 6vh 6.5vw">
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; gap:2.5vw;">
             <p style="font-size: 3.5vh; font-weight: 700; margin: 0; font-family: 'Montserrat Alternates', sans-serif"><span style="color: #0d6efd">New</span> Arrivals</p>
-            <div id="watchesContainer" style="display: flex; column-gap: 2vw; flex-wrap: wrap; font-family: 'Nunito', sans-serif">
+            <div id="watchesContainer" style="display: flex; column-gap: 1.5vw; flex-wrap: wrap; font-family: 'Nunito', sans-serif">
             </div>
             <a class="btn btn-primary" asp-action="WatchList">See All Watches</a>
         </div>
@@ -223,7 +223,7 @@
                             $.each(res.watchDTOs, (key, value) => {
                                 let createCard = (value) => {
                                     if (value.isActive) {
-                                        let card = $("<div>").addClass("card shadow-none").css("width", "15vw").css({ "height": "42vh", "cursor": "pointer", "border": "none" })
+                                        let card = $("<div>").addClass("card shadow-none").css("width", "16.2vw").css({ "height": "42vh", "cursor": "pointer", "border": "none" })
                                         let imgContainer = $("<div>").addClass("card-img-top shadow-sm").css("width", "100%").css({ "height": "75%", "position": "relative", "overflow": "hidden", "display": "flex", "justify-content": "center", "align-items": "center", "border-radius": "2vh" })
                                         let image = $(`<img src='${value.image}' />`).css("width", "100%").css("position", "absolute").css("margin", "auto")
                                         let cardBody = $("<div>").addClass("card-body").css({ "text-overflow": "ellipsis", "padding": "1vh .5vw", "position": "relative" })

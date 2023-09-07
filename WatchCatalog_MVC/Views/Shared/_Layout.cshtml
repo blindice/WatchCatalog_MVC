@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WatchCatalog_MVC.styles.css" asp-append-version="true" />
+    <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
           rel="stylesheet" />
@@ -43,14 +44,14 @@
     </div>
 
     <footer class="border-top footer text-muted" style="background: #0d6efd">
-        <div class="container" style="display:flex; justify-content: center; align-items: center; color: white">
+        <div class="container" style="display:flex; justify-content: center; align-items: center; color: white; height: 10vh">
             &copy; 2023 ClockWork
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
     <script type="text/javascript" src="~/js/GlobalScripts.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 @*     <partial name="_ValidationScriptsPartial" /> *@
@@ -59,3 +60,4 @@
     }
 </body>
 </html>
+  
