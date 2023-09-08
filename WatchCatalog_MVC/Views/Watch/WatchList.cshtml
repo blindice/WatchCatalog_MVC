@@ -1,5 +1,9 @@
 ﻿@model string
 
+@{
+    ViewData["Title"] = "Watch List";
+}
+
 <div id="watchList-container" style="width: 100vw; padding-top: 10vh">
     <section id="carousel" style="width: 100%; display: flex; justify-content: center; align-items: center; font-family: 'Montserrat Alternates', sans-serif; cursor: pointer">
         <!-- Carousel wrapper -->
@@ -70,6 +74,7 @@
     </section>
 
     <partial name="_WatchList" />
+    <partial name="_Modal" />
     <partial name="_BackToTopButton" />
 </div>
 @section Scripts{
@@ -79,5 +84,84 @@
         let HandleCarouselClick = async (searchString) => {
             createWatchListPartialScript(searchString)
         }
+
+        $(() => {
+            const submitBtn = $("#btnSubmitModal")
+            const submitBtnBeforeText = submitBtn.text()
+
+            $("#btnAdd").click(function () {
+                callModalBody($(this), { url: '@Url.Action("ModalBody")', method: "Post", id: null, submitFn: formSubmit })
+            })
+
+            var formSubmit = async (event) => {
+                event.preventDefault()
+                var form = new FormData();
+                form.append("image", imageFile.files[0]);
+                form.append("watchname", $("#WatchName").val());
+                form.append("case", $("#Case").val());
+                form.append("jewel", $("#Jewel").val());
+                form.append("strap", $("#Strap").val());
+                form.append("caliber", $("#Caliber").val());
+                form.append("full_description", $("#Full_Description").val());
+                form.append("short_description", $("#Short_description").val());
+                form.append("Chronograph", $("#Chronograph").val());
+                form.append("price", $("#Price").val());
+                form.append("height", $("#Height").val());
+                form.append("weight", $("#Weight").val());
+                form.append("diameter", $("#Diameter").val());
+                form.append("thickness", $("#Thickness").val());
+
+                await $.ajax({
+                    url: "/addwatch",
+                    method: "POST",
+                    timeout: 0,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    contentType: false,
+                    data: form,
+                    beforeSend: () => {
+                        submitBtn.attr("disabled", "disabled")
+                        submitBtn.text(" Loading...")
+                        submitBtn.prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
+                    },
+                    success: () => {
+                        submitBtn.removeAttr("disabled")
+                        submitBtn.text(submitBtnBeforeText)
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Watch successfully Added!',
+                            showConfirmButton: false,
+                            timer: 3000,
+                        }).then(() => {
+                            const truck_modal = document.querySelector('#partialModal');
+                            const modal = bootstrap.Modal.getInstance(truck_modal);
+                            modal.hide();
+
+                            $("#searchInput").text('')
+                            createWatchLists()
+                        })
+                    },
+                    error: (xhr, ajaxOptions, thrownError) => {
+                        if (xhr.status == 404) {
+                            console.log(xhr)
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: xhr.responseText,
+                                showConfirmButton: false,
+                                timer: 3000,
+                            }).then(() => {
+                                submitBtn.removeAttr("disabled")
+                                submitBtn.text(submitBtnBeforeText)
+                            })
+                        }
+                        else {
+                            window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
+                        }
+                    }
+                })
+            }
+        })
     </script>
 }

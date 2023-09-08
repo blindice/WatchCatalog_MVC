@@ -90,14 +90,15 @@ let createWatchLists = async (pageNumber = 1, pageSize = 10) => {
                 $.each(res.watchDTOs, (key, value) => {
                     let createCard = (value) => {
                         let availability = value.isActive ? "" : "not-available"
+                        let imageSrc = value.image ?? '/images/imageTemplate.png';
                        
                         let card = $("<div>").addClass("card shadow-none").css("width", "16.2vw").css({ "height": "42vh", "cursor": "pointer", "border": "none" }).attr("id", value.watchId)
-                        let imgContainer = $("<div>").addClass(`card-img-top shadow-sm ${availability}`).css("width", "100%").css({ "height": "75%", "position": "relative", "overflow": "hidden", "display": "flex", "justify-content": "center", "align-items": "center", "border-radius": "1vh" })
+                        let imgContainer = $("<div>").addClass(`card-img-top shadow-sm ${availability}`).css("width", "100%").css({ "height": "85%", "position": "relative", "overflow": "hidden", "display": "flex", "justify-content": "center", "align-items": "center", "border-radius": "1vh" })
                         let newTag = $("<span>")
-                        let image = $(`<img src='${value.image}' />`).css("width", "100%").css("position", "absolute").css("margin", "auto")
+                        let image = $(`<img src='${imageSrc}' />`).css("height", "100%").css("position", "absolute").css("margin", "auto")
                         let cardBody = $("<div>").addClass("card-body").css({ "text-overflow": "ellipsis", "padding": "1vh .5vw", "position": "relative" })
-                        let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.5vh", "width": "75%" })
-                        let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.5vh" })
+                        let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName.toUpperCase()).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.6vh", "width": "75%" })
+                        let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description.toUpperCase()).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.6vh" })
                         let cardText = $("<p>").addClass("card-text").text(`Price: ฿ ${value.price.toFixed(2) }`).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1vh" })
                         let cardRate = createRandomRate();
 

@@ -1,16 +1,22 @@
 ﻿@using WatchCatalog_MVC.ViewModels;
 @model WatchDetailsViewModel
 
+@{
+    ViewData["Title"] = Model.WatchName;
+    var imageSrc = Model.Image ?? "/images/imagetemplate.png";
+}
 <div id="watchList-container" style="width: 100vw; display: flex; flex-direction: column; gap: 5vh">
     <section id="watchDetails" style="height: 100vh; width: 100vw; display: flex; align-items: end; justify-content: center; padding: 0vh 6.5vw; column-gap: 5vw; padding-top: 13vh">
-        <div class="@Model.GetProductAvailabilityClass()" style="width: 50%; display: flex; justify-content: center;align-self: start; height: 100%; position: relative">
-            <img src="@Model.Image" style="height: 95%; border-radius: 2vh;" />
+        <div class="card shadow-none" style="width: 50%; height: 100%; border: none; display: flex;padding-right: 5%">
+            <div class="@Model.GetProductAvailabilityClass() card-img shadow-none" style="width: 80%; display: flex; justify-content: center;align-self: end; height: 95%; position: relative; overflow: hidden;">
+                <img src=@imageSrc style="height: 100%; border-radius: 2vh; position: absolute; margin: auto" />
+            </div>
         </div>
         <div style="width: 50%;align-self: start; height: 100%; display: flex; flex-direction: column; justify-content: start; padding-right: 7vw; row-gap: 1vh">
             <div style="font-family: 'Nunito', sans-serif">
                 <div><p style="font-size: 3.5vh; font-family: 'Montserrat Alternates', sans-serif; font-weight: 500">@Model.WatchName</p></div>
                 <p style="font-size: 2vh; font-weight: 500">฿ @Math.Round(Model.Price, 2)</p>
-                <p style="text-align: justify; font-size: 2vh;"><em>@Model.Short_description</em></p>
+                <p style="text-align: justify; font-size: 2vh;"><em>@Model.Short_description.ToUpper()</em></p>
                 <p style="text-align: justify; font-size: 2vh;">@Model.Full_Description</p>
 
             </div>
@@ -51,7 +57,7 @@
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body" style="display: grid; grid-template-columns: 3vw 1fr">
+                        <div class="accordion-body" style="display: grid; grid-template-columns: 4vw 1fr">
                             <p style="font-size: 2vh; font-weight: 700">Strap:</p>
                             <p style="font-size: 2vh;">@Model.Strap</p>
                             <p style="font-size: 2vh;font-weight: 700">Jewel:</p>
@@ -88,7 +94,7 @@
             const submitBtnBeforeText = submitBtn.text()
 
             $("#btnUpdate").click(function () {
-                callModalBody($(this), { url: '@Url.Action("ModalBody")', method: "PUT", id: @Model.WatchId, submitFn: formSubmit })
+                callModalBody($(this), { url: '@Url.Action("ModalBody")', method: "POST", id: @Model.WatchId, submitFn: formSubmit })
             })
 
 
@@ -122,7 +128,8 @@
                     data: form,
                     beforeSend: () => {
                         submitBtn.attr("disabled", "disabled")
-                        submitBtn.text("Loading...")
+                        submitBtn.text(" Loading...")
+                        submitBtn.prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
                     },
                     success: (res) => {
                         submitBtn.removeAttr("disabled")
@@ -130,24 +137,29 @@
 
                         Swal.fire({
                             icon: 'success',
-                            title: 'Your work has been saved',
+                            title: 'Watch successfully Updated!',
                             showConfirmButton: false,
-                            timer: 1111500
+                            timer: 3000,
                         }).then(() => {
                             location.reload(true);
                         })
                     },
                     error: (xhr, ajaxOptions, thrownError) => {
                         if (xhr.status == 404) {
+                            console.log(xhr)
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Your work has been saved',
+                                title: 'Error',
+                                text: xhr.responseText,
                                 showConfirmButton: false,
-                                timer: 111500
+                                timer: 3000,
                             }).then(() => {
                                 submitBtn.removeAttr("disabled")
                                 submitBtn.text(submitBtnBeforeText)
                             })
+                        }
+                        else {
+                            window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
                         }
                     }
                 })
@@ -174,17 +186,58 @@
                 })
             })
 
-
-            $("#btnDelete").click(() => {
-                var settings = {
-                    "url": `/deletewatch/${@Model.WatchId}`,
-                    "method": "DELETE",
-                    "timeout": 0,
-                };
-
-                $.ajax(settings).done(function (response) {
-                    console.log(response);
-                });
+            //delete
+            $("#btnDelete").click(async () => {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Are you sure to delete this watch?',
+                    buttonsStyling: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Delete',
+                    confirmButtonColor: '#dc3545',
+                    customClass: {
+                        confirmButton: 'btn btn-danger me-4',
+                        cancelButton: 'btn btn-outline-danger'
+                    },
+                    showLoaderOnConfirm: true,
+                    preConfirm: async (login) => {
+                        await $.ajax({
+                            url: `/deletewatch/${@Model.WatchId}`,
+                            method: "DELETE",
+                            timeout: 0,
+                            error: (xhr, ajaxOptions, thrownError) => {
+                                if (xhr.status == 404) {
+                                    console.log(xhr)
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: xhr.responseText,
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                    }).then(() => {
+                                        submitBtn.removeAttr("disabled")
+                                        submitBtn.text(submitBtnBeforeText)
+                                    })
+                                }
+                                else {
+                                    window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
+                                }
+                            }
+                        })                       
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Watch successfully Deleted!',
+                            showConfirmButton: false,
+                            timer: 3000,
+                        }).then(() => {
+                            window.location = `@Url.Action("WatchList")`
+                        })
+                    }
+                })
             })
         })
     </script>

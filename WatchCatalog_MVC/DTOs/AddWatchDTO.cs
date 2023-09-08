@@ -6,11 +6,11 @@ namespace WatchCatalog_MVC.DTOs
     public class AddWatchDTO
     {
         public IFormFile? Image { get; set; }
-
-        [StringLength(20)]
+        [StringLength(100)]
         public string WatchName { get; set; } = null!;
-        [StringLength(500)]
+        [StringLength(200)]
         public string Short_description { get; set; } = null!;
+        [StringLength(600)]
         public string Full_Description { get; set; } = null!;
         [Column(TypeName = "decimal(13, 2)")]
         [Range(1.0, double.MaxValue, ErrorMessage = "The field {0} must be greater than {1} and less than {2}.")]

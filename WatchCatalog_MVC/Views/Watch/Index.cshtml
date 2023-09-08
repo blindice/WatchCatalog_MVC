@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
 }
 
 
@@ -14,7 +14,7 @@
                     <img src="~/images/fire.gif" style="height: 2.5vh; margin-left: -.5vw; transform: translateY(-.5vh)" />. We give our consumers a whole new <span style="font-weight: 700">Experience</span> and <span style=" font-weight: 700">Unrivaled Satisfaction</span> that will remove all your watch trust issues.
                 </p>
                 <div style="display: flex; align-items: center; column-gap: 2vw">
-                    <button class="btn btn-primary btn-lg shadow">See watches</button>
+                    <button class="btn btn-primary btn-lg shadow" id="btnNewArraivals">See New Arrivals</button>
                     <p style="margin-top: 2vh; font-weight: 700; font-size: 2vh; font-family: 'Nunito', sans-serif"><span style="color: #0d6efd">1000+</span> visits everyday!</p>
                 </div>
             </div>
@@ -221,14 +221,16 @@
                         }
                         else {
                             $.each(res.watchDTOs, (key, value) => {
+                                let imageSrc = value.image ?? '/images/imageTemplate.png';
+
                                 let createCard = (value) => {
                                     if (value.isActive) {
                                         let card = $("<div>").addClass("card shadow-none").css("width", "16.2vw").css({ "height": "42vh", "cursor": "pointer", "border": "none" })
-                                        let imgContainer = $("<div>").addClass("card-img-top shadow-sm").css("width", "100%").css({ "height": "75%", "position": "relative", "overflow": "hidden", "display": "flex", "justify-content": "center", "align-items": "center", "border-radius": "2vh" })
-                                        let image = $(`<img src='${value.image}' />`).css("width", "100%").css("position", "absolute").css("margin", "auto")
+                                        let imgContainer = $("<div>").addClass("card-img-top shadow-sm").css("width", "100%").css({ "height": "85%", "position": "relative", "overflow": "hidden", "display": "flex", "justify-content": "center", "align-items": "center", "border-radius": "2vh" })
+                                        let image = $(`<img src='${imageSrc}' />`).css("height", "100%").css("position", "absolute").css("margin", "auto")
                                         let cardBody = $("<div>").addClass("card-body").css({ "text-overflow": "ellipsis", "padding": "1vh .5vw", "position": "relative" })
-                                        let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName).css({ "font-weight": "700", "font-size": "2vh", "line-height": "2vh", "width": "50%" })
-                                        let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description).css({ "font-weight": "700", "font-size": "2vh", "line-height": "2vh" })
+                                        let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName.toUpperCase()).css({ "font-weight": "700", "font-size": "2vh", "line-height": "2vh", "width": "50%" })
+                                        let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description.toUpperCase()).css({ "font-weight": "700", "font-size": "2vh", "line-height": "2vh" })
                                         let cardText = $("<p>").addClass("card-text").text(`Price: ฿ ${value.price.toFixed(2)}`).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1vh" })
                                         let cardRating = createRandomRate()
                                         card.click(() => {
@@ -254,43 +256,10 @@
 
             await getAllWatches(1, 5);
 
-            //add
-            $("#btnAdd").click(() => callModalBody({ url: '@Url.Action("ModalBody")', method: "POST", id: null, submitFn: formSubmit }))
-
-            var formSubmit = async (event) => {
-                event.preventDefault()
-                var form = new FormData();
-                form.append("image", imageFile.files[0]);
-                form.append("watchname", $("#WatchName").val());
-                form.append("case", $("#Case").val());
-                form.append("jewel", $("#Jewel").val());
-                form.append("strap", $("#Strap").val());
-                form.append("caliber", $("#Caliber").val());
-                form.append("full_description", $("#Full_Description").val());
-                form.append("short_description", $("#Short_description").val());
-                form.append("Chronograph", $("#Chronograph").val());
-                form.append("price", $("#Price").val());
-                form.append("height", $("#Height").val());
-                form.append("weight", $("#Weight").val());
-                form.append("diameter", $("#Diameter").val());
-                form.append("thickness", $("#Thickness").val());
-
-                await $.ajax({
-                    url: "/addwatch",
-                    method: "POST",
-                    timeout: 0,
-                    processData: false,
-                    mimeType: "multipart/form-data",
-                    contentType: false,
-                    data: form,
-                    success: () => {
-                        getAllWatches()
-                    },
-                    error: (err) => {
-                        console.log(err)
-                    }
-                })
-            }            
+            //scroll to new arrivals
+            $("#btnNewArraivals").click(() => {
+               window.scrollTo(0, document.body.scrollHeight, 'smooth');
+            })
         })
     </script>
 }
