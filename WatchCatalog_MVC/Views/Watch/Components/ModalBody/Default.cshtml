@@ -156,7 +156,13 @@
                     <label class="form-label">Jewel</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Jewel">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Jewel">
+                        <option value="">Select Jewel</option>
+                        <option value="Diamond">Diamond</option>
+                        <option value="Garnet">Garnet</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="Sapphire">Sapphire</option>
+                    </select>
                     <span asp-validation-for="Jewel" class="text-danger error-message"></span>
                 </div>
             </div>
@@ -165,7 +171,14 @@
                     <label class="form-label">Case</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Case">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Case">
+                        <option value="">Select Case</option>
+                        <option value="Bronze">Bronze</option>
+                        <option value="Ceramic">Ceramic</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Stainless Steel">Stainless Steel</option>
+                        <option value="Titanium">Titanium</option>
+                    </select>
                     <span asp-validation-for="Case" class="text-danger error-message"></span>
                 </div>
             </div>
@@ -174,7 +187,17 @@
                     <label class="form-label">Strap</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Strap">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Strap">
+                        <option value="">Select Strap</option>
+                        <option value="Ceramic">Ceramic</option>
+                        <option value="Leather">Leather</option>
+                        <option value="Mesh">Mesh</option>
+                        <option value="Nylon Banding">Nylon Banding</option>
+                        <option value="Polyurethane Rubber">Polyurethane Rubber</option>                                              
+                        <option value="Silicone">Silicone</option>   
+                        <option value="Stainless Steel">Stainless Steel</option>
+                        <option value="Titanium">Titanium</option>
+                    </select>
                     <span asp-validation-for="Strap" class="text-danger error-message"></span>
                 </div>
             </div>
@@ -195,7 +218,12 @@
                     <label class="form-label">Caliber</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Caliber">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Caliber">
+                        <option value="">Select Caliber</option>
+                        <option value="Automatic">Automatic</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Quartz">Quartz</option>
+                    </select>
                     <span asp-validation-for="Caliber" class="text-danger error-message"></span>
                 </div>
             </div>

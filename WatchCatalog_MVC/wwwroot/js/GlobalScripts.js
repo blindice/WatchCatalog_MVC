@@ -2,7 +2,7 @@
     const beforeControlText = control.text();
     const submitBtn = $("#btnSubmitModal")
 
-    submitBtn.click(() => {
+    submitBtn.click(function () {
         if ($("#partialModal .modal-body form").valid()) {
             $("#partialModal .modal-body form").submit()
         }
@@ -25,9 +25,19 @@
         success: (res) => {
             $('#partialModal .modal-body form').off()
             $("#partialModal .modal-body").html(res)
+            $('input[type="number"]')
+                .focus(function () { $(this).val('') })
+                .blur(function () {
+                    if ($(this).val() == '')
+                        $(this).val(0)
+                });
             $('#partialModal .modal-body form').data('validator', null);
             $.validator.unobtrusive.parse('#partialModal .modal-body form');
             $('#partialModal .modal-body form').on("submit", params.submitFn)
+            $('#partialModal').on('hide.bs.modal', () => {
+                $('#partialModal .modal-body form').unbind();
+                submitBtn.unbind();
+            })
             $('#partialModal .modal-body form #imageFile').change((e) => {
                 var uploadimg = new FileReader();
                 uploadimg.onload = function (displayimg) {
@@ -40,8 +50,8 @@
             control.text(beforeControlText)
             $('#partialModal').modal('show');
         },
-        error: (err) => {
-            console.log(err)
+        error: (xhr, ajaxOptions, thrownError) => {
+            window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
         }
     })
 }
@@ -91,7 +101,7 @@ let createWatchLists = async (pageNumber = 1, pageSize = 10) => {
                     let createCard = (value) => {
                         let availability = value.isActive ? "" : "not-available"
                         let imageSrc = value.image ?? '/images/imageTemplate.png';
-                       
+
                         let card = $("<div>").addClass("card shadow-none").css("width", "16.2vw").css({ "height": "42vh", "cursor": "pointer", "border": "none" }).attr("id", value.watchId)
                         let imgContainer = $("<div>").addClass(`card-img-top shadow-sm ${availability}`).css("width", "100%").css({ "height": "85%", "position": "relative", "overflow": "hidden", "display": "flex", "justify-content": "center", "align-items": "center", "border-radius": "1vh" })
                         let newTag = $("<span>")
@@ -99,7 +109,7 @@ let createWatchLists = async (pageNumber = 1, pageSize = 10) => {
                         let cardBody = $("<div>").addClass("card-body").css({ "text-overflow": "ellipsis", "padding": "1vh .5vw", "position": "relative" })
                         let cardTitle = $("<p>").addClass("card-title text-truncate").text(value.watchName.toUpperCase()).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.6vh", "width": "75%" })
                         let cardDesc = $("<p>").addClass("card-text text-truncate").text(value.short_description.toUpperCase()).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1.6vh" })
-                        let cardText = $("<p>").addClass("card-text").text(`Price: ฿ ${value.price.toFixed(2) }`).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1vh" })
+                        let cardText = $("<p>").addClass("card-text").text(`Price: ฿ ${value.price.toFixed(2)}`).css({ "font-weight": "700", "font-size": "2vh", "line-height": "1vh" })
                         let cardRate = createRandomRate();
 
                         card.click(() => {
@@ -110,7 +120,7 @@ let createWatchLists = async (pageNumber = 1, pageSize = 10) => {
                         //    newTag.text("NEW").css({ "z-index": "1", "color": "white", "background": "#dc3545", "position": "absolute", "top": "0", "right": "0.5vw", "font-size": ".9vh", "font-weight": "700", "border-radius": ".2vh", "padding": "0 .5vw" })
 
                         imgContainer.append(image, newTag)
-                        cardBody.append(cardTitle, cardDesc, cardText, cardRate)                      
+                        cardBody.append(cardTitle, cardDesc, cardText, cardRate)
 
                         return card.append(imgContainer, cardBody)
 
