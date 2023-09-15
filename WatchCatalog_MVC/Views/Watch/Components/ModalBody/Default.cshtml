@@ -125,7 +125,7 @@
                 <div class="col-auto">
                     <div class="input-group">
                         <span class="input-group-text">฿</span>
-                        <input type="number" class="form-control form-control-sm " asp-for="Price">
+                        <input type="number" class="form-control form-control-sm " asp-for="Price" placeholder="Must be atleast ฿1">
                     </div>
                     <span asp-validation-for="Price" class="text-danger error-message"></span>
                 </div>
@@ -156,7 +156,13 @@
                     <label class="form-label">Jewel</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Jewel">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Jewel">
+                        <option value="">Select Jewel</option>
+                        <option value="Diamond">Diamond</option>
+                        <option value="Garnet">Garnet</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="Sapphire">Sapphire</option>
+                    </select>
                     <span asp-validation-for="Jewel" class="text-danger error-message"></span>
                 </div>
             </div>
@@ -165,7 +171,14 @@
                     <label class="form-label">Case</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Case">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Case">
+                        <option value="">Select Case</option>
+                        <option value="Bronze">Bronze</option>
+                        <option value="Ceramic">Ceramic</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Stainless Steel">Stainless Steel</option>
+                        <option value="Titanium">Titanium</option>
+                    </select>
                     <span asp-validation-for="Case" class="text-danger error-message"></span>
                 </div>
             </div>
@@ -174,7 +187,17 @@
                     <label class="form-label">Strap</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Strap">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Strap">
+                        <option value="">Select Strap</option>
+                        <option value="Ceramic">Ceramic</option>
+                        <option value="Leather">Leather</option>
+                        <option value="Mesh">Mesh</option>
+                        <option value="Nylon Banding">Nylon Banding</option>
+                        <option value="Polyurethane Rubber">Polyurethane Rubber</option>                                              
+                        <option value="Silicone">Silicone</option>   
+                        <option value="Stainless Steel">Stainless Steel</option>
+                        <option value="Titanium">Titanium</option>
+                    </select>
                     <span asp-validation-for="Strap" class="text-danger error-message"></span>
                 </div>
             </div>
@@ -195,7 +218,12 @@
                     <label class="form-label">Caliber</label>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control form-control-sm " asp-for="Caliber">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="Caliber">
+                        <option value="">Select Caliber</option>
+                        <option value="Automatic">Automatic</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Quartz">Quartz</option>
+                    </select>
                     <span asp-validation-for="Caliber" class="text-danger error-message"></span>
                 </div>
             </div>
@@ -205,7 +233,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Weight">
+                        <input type="number" class="form-control form-control-sm " asp-for="Weight" placeholder="Must be between 1g and 1kg">
                         <span class="input-group-text">g</span>
                     </div>
                     <span asp-validation-for="Weight" class="text-danger error-message"></span>
@@ -217,7 +245,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Height">
+                        <input type="number" class="form-control form-control-sm " asp-for="Height" placeholder="Must be between 1mm and 50mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Height" class="text-danger error-message"></span>
@@ -229,7 +257,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Diameter">
+                        <input type="number" class="form-control form-control-sm " asp-for="Diameter" placeholder="Must be between 1mm and 50mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Diameter" class="text-danger error-message"></span>
@@ -241,7 +269,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Thickness">
+                        <input type="number" class="form-control form-control-sm " asp-for="Thickness" placeholder="Must be between 1mm and 20mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Thickness" class="text-danger error-message"></span>

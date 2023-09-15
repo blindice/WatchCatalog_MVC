@@ -6,18 +6,18 @@
     var imageSrc = Model.Image ?? "/images/imagetemplate.png";
 }
 <div id="watchList-container" style="width: 100vw; display: flex; flex-direction: column; gap: 5vh">
-    <section id="watchDetails" style="height: 100vh; width: 100vw; display: flex; align-items: end; justify-content: center; padding: 0vh 6.5vw; column-gap: 5vw; padding-top: 13vh">
-        <div class="card shadow-none" style="width: 50%; height: 100%; border: none; display: flex;padding-right: 5%">
+    <section id="watchDetails" style="height: 100vh; width: 100%; display: flex; align-items: end; justify-content: center; padding: 0vh 6.5vw; padding-top: 13vh; column-gap: 5vw">
+        <div class="card shadow-none" style="width: 50%; height: 100%; border: none; display: flex;">
             <div class="@Model.GetProductAvailabilityClass() card-img shadow-none" style="width: 80%; display: flex; justify-content: center;align-self: end; height: 95%; position: relative; overflow: hidden;">
                 <img src=@imageSrc style="height: 100%; border-radius: 2vh; position: absolute; margin: auto" />
             </div>
         </div>
-        <div style="width: 50%;align-self: start; height: 100%; display: flex; flex-direction: column; justify-content: start; padding-right: 7vw; row-gap: 1vh">
+        <div style="width: 50%;align-self: start; height: 100%; display: flex; flex-direction: column; justify-content: start; row-gap: 1vh">
             <div style="font-family: 'Nunito', sans-serif">
                 <div><p style="font-size: 3.5vh; font-family: 'Montserrat Alternates', sans-serif; font-weight: 500">@Model.WatchName</p></div>
                 <p style="font-size: 2vh; font-weight: 500">฿ @Math.Round(Model.Price, 2)</p>
                 <p style="text-align: justify; font-size: 2vh;"><em>@Model.Short_description.ToUpper()</em></p>
-                <p style="text-align: justify; font-size: 2vh;">@Model.Full_Description</p>
+                <div style="height: 26vh; border-bottom: 1px rgba(0, 0 ,0, 0.15 ) solid; margin-bottom: 1vh"><p style="text-align: justify; font-size: 2vh;">@Model.Full_Description</p></div>
 
             </div>
             <div style="margin-bottom: 2vh; display:flex; width: 100%; justify-content:space-between; column-gap: 1vw">
@@ -77,15 +77,28 @@
     <partial name="_WatchList" />
     <partial name="_Modal" />
     <partial name="_BackToTopButton" />
+    @Html.AntiForgeryToken()
 </div>
 
 @section Scripts{
     <script>
         $(() => {
-            //create watchlist
-            // let relatedSearchStrings = ['@Model.Strap', '@Model.Jewel', '@Model.Case', '@Model.Caliber', '@Model.Chronograph']
-            // const randomIndex = Math.floor(Math.random() * relatedSearchStrings.length);
-            // const relatedSearchString = relatedSearchStrings[randomIndex];
+            //forgery validation token
+            let token = $('input[name="__RequestVerificationToken"]').val();
+
+            //accodion
+            $("#collapseTwo").on("show.bs.collapse", () => {
+                window.scrollTo(0, 170, 'smooth');
+            }).on("hide.bs.collapse", () => {
+                window.scrollTo(0, 0, 'smooth');
+            })
+            $("#collapseOne").on("show.bs.collapse", () => {
+                window.scrollTo(0, 50, 'smooth');
+            }).on("hide.bs.collapse", () => {
+                window.scrollTo(0, 0, 'smooth');
+            })
+
+            //add
             $("#btnAdd").css({ "visibility": "hidden" })
             createWatchListPartialScript()
 
@@ -97,8 +110,7 @@
                 callModalBody($(this), { url: '@Url.Action("ModalBody")', method: "POST", id: @Model.WatchId, submitFn: formSubmit })
             })
 
-
-            var formSubmit = (event) => {
+            var formSubmit = function (event) {
                 event.preventDefault()
                 var form = new FormData();
                 form.append("image", imageFile.files[0]);
@@ -126,6 +138,10 @@
                     mimeType: "multipart/form-data",
                     contentType: false,
                     data: form,
+                    headers:
+                    {
+                        "RequestVerificationToken": token
+                    },
                     beforeSend: () => {
                         submitBtn.attr("disabled", "disabled")
                         submitBtn.text(" Loading...")
@@ -141,16 +157,29 @@
                             showConfirmButton: false,
                             timer: 3000,
                         }).then(() => {
-                            location.reload(true);
+                            window.location = '@Url.Action("Details")'
                         })
                     },
-                    error: (xhr, ajaxOptions, thrownError) => {
+                    error: (xhr, ajaxOptions, thrownError) => {                       
                         if (xhr.status == 404) {
                             console.log(xhr)
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
                                 text: xhr.responseText,
+                                showConfirmButton: false,
+                                timer: 3000,
+                            }).then(() => {
+                                submitBtn.removeAttr("disabled")
+                                submitBtn.text(submitBtnBeforeText)
+                            })
+                        }
+                        else if (xhr.status == 422) {
+                            console.log(xhr)
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: "Input all Fields!",
                                 showConfirmButton: false,
                                 timer: 3000,
                             }).then(() => {
@@ -173,6 +202,10 @@
                     data: JSON.stringify({ watchId: @Model.WatchId, isActive: @Model.IsActive.ToString().ToLower()}),
                     dataType: 'json',
                     contentType: "application/json",
+                    headers:
+                    {
+                        "RequestVerificationToken": token
+                    },
                     beforeSend: () => {
                         $(this).attr("disabled", "disabled")
                         $(this).text("Loading...")
@@ -180,8 +213,14 @@
                     success: (result) => {
                         location.reload(true);
                     },
-                    error: (err) => {
-                        alert(JSON.stringify(err))
+                    error: (xhr, ajaxOptions, thrownError) => {
+                        let message = ''
+                        if (typeof xhr.responseText === "string" && xhr.responseText.trim().length === 0) {
+                            if (xhr.status === 404 || xhr.status === 400 || xhr.status === 422)
+                                message = 'Something went wrong...'
+                        }
+
+                        window.location = `/error?statusCode=${xhr.status}&message=${message}`;
                     }
                 })
             })
@@ -205,13 +244,21 @@
                             url: `/deletewatch/${@Model.WatchId}`,
                             method: "DELETE",
                             timeout: 0,
+                            headers:
+                            {
+                                "RequestVerificationToken": token
+                            },
                             error: (xhr, ajaxOptions, thrownError) => {
+                                let message = ''
+                                if (typeof xhr.responseText === "string" && xhr.responseText.trim().length === 0) {
+                                    if (xhr.status === 404 || xhr.status === 400)
+                                        message = 'Something went wrong...'
+                                }
                                 if (xhr.status == 404) {
-                                    console.log(xhr)
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'Error',
-                                        text: xhr.responseText,
+                                        text: message,
                                         showConfirmButton: false,
                                         timer: 3000,
                                     }).then(() => {
@@ -220,10 +267,10 @@
                                     })
                                 }
                                 else {
-                                    window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
+                                    window.location = `/error?statusCode=${xhr.status}&message=${message}`;
                                 }
                             }
-                        })                       
+                        })
                     },
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {

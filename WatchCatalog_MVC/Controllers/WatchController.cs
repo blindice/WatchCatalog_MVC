@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text;
 using WatchCatalog_MVC.DTOs;
+using WatchCatalog_MVC.Filters;
 using WatchCatalog_MVC.Helpers;
 using WatchCatalog_MVC.Interfaces;
 using WatchCatalog_MVC.ViewModels;
@@ -44,6 +45,8 @@ namespace WatchCatalog_MVC.Controllers
         }
 
         [HttpPost("togglewatch")]
+        [ValidateAntiForgeryToken()]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> Toggle([FromBody] ToggleWatchDTO watch)
         {
             var modifiedWatch = await _httpClientService.ToggleWatchAsync(watch);
@@ -52,6 +55,8 @@ namespace WatchCatalog_MVC.Controllers
         }
 
         [HttpPut("updatewatch")]
+        [ValidateAntiForgeryToken()]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> Update([FromForm] UpdateWatchDTO watch)
         {
             var modifiedWatch = await _httpClientService.UpdateWatchAsync(watch);
@@ -61,6 +66,8 @@ namespace WatchCatalog_MVC.Controllers
         }
 
         [HttpPost("addwatch")]
+        [ValidateAntiForgeryToken()]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> Add([FromForm] AddWatchDTO watch)
         {
             var modifiedWatch = await _httpClientService.AddWatchAsync(watch);
@@ -69,6 +76,8 @@ namespace WatchCatalog_MVC.Controllers
         }
 
         [HttpDelete("deletewatch/{id}")]
+        [ValidateAntiForgeryToken()]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> Delete(int? id)
         {
             var deletedWatch = await _httpClientService.DeleteWatchAsync((int)id!);
