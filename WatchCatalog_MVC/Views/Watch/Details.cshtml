@@ -17,7 +17,7 @@
                 <div><p style="font-size: 3.5vh; font-family: 'Montserrat Alternates', sans-serif; font-weight: 500">@Model.WatchName</p></div>
                 <p style="font-size: 2vh; font-weight: 500">฿ @Math.Round(Model.Price, 2)</p>
                 <p style="text-align: justify; font-size: 2vh;"><em>@Model.Short_description.ToUpper()</em></p>
-                <div style="height: 60%; border-bottom: 1px rgba(0, 0 ,0, 0.15 ) solid; margin-bottom: 1vh"><p style="text-align: justify; font-size: 2vh;">@Model.Full_Description</p></div>
+                <div style="height: 26vh; border-bottom: 1px rgba(0, 0 ,0, 0.15 ) solid; margin-bottom: 1vh"><p style="text-align: justify; font-size: 2vh;">@Model.Full_Description</p></div>
 
             </div>
             <div style="margin-bottom: 2vh; display:flex; width: 100%; justify-content:space-between; column-gap: 1vw">
@@ -77,14 +77,18 @@
     <partial name="_WatchList" />
     <partial name="_Modal" />
     <partial name="_BackToTopButton" />
+    @Html.AntiForgeryToken()
 </div>
 
 @section Scripts{
     <script>
         $(() => {
+            //forgery validation token
+            let token = $('input[name="__RequestVerificationToken"]').val();
+
             //accodion
             $("#collapseTwo").on("show.bs.collapse", () => {
-                window.scrollTo(0, 200, 'smooth');
+                window.scrollTo(0, 170, 'smooth');
             }).on("hide.bs.collapse", () => {
                 window.scrollTo(0, 0, 'smooth');
             })
@@ -134,6 +138,10 @@
                     mimeType: "multipart/form-data",
                     contentType: false,
                     data: form,
+                    headers:
+                    {
+                        "RequestVerificationToken": token
+                    },
                     beforeSend: () => {
                         submitBtn.attr("disabled", "disabled")
                         submitBtn.text(" Loading...")
@@ -152,13 +160,26 @@
                             window.location = '@Url.Action("Details")'
                         })
                     },
-                    error: (xhr, ajaxOptions, thrownError) => {
+                    error: (xhr, ajaxOptions, thrownError) => {                       
                         if (xhr.status == 404) {
                             console.log(xhr)
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
                                 text: xhr.responseText,
+                                showConfirmButton: false,
+                                timer: 3000,
+                            }).then(() => {
+                                submitBtn.removeAttr("disabled")
+                                submitBtn.text(submitBtnBeforeText)
+                            })
+                        }
+                        else if (xhr.status == 422) {
+                            console.log(xhr)
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: "Input all Fields!",
                                 showConfirmButton: false,
                                 timer: 3000,
                             }).then(() => {
@@ -181,6 +202,10 @@
                     data: JSON.stringify({ watchId: @Model.WatchId, isActive: @Model.IsActive.ToString().ToLower()}),
                     dataType: 'json',
                     contentType: "application/json",
+                    headers:
+                    {
+                        "RequestVerificationToken": token
+                    },
                     beforeSend: () => {
                         $(this).attr("disabled", "disabled")
                         $(this).text("Loading...")
@@ -188,8 +213,14 @@
                     success: (result) => {
                         location.reload(true);
                     },
-                    error: (err) => {
-                        alert(JSON.stringify(err))
+                    error: (xhr, ajaxOptions, thrownError) => {
+                        let message = ''
+                        if (typeof xhr.responseText === "string" && xhr.responseText.trim().length === 0) {
+                            if (xhr.status === 404 || xhr.status === 400 || xhr.status === 422)
+                                message = 'Something went wrong...'
+                        }
+
+                        window.location = `/error?statusCode=${xhr.status}&message=${message}`;
                     }
                 })
             })
@@ -213,13 +244,21 @@
                             url: `/deletewatch/${@Model.WatchId}`,
                             method: "DELETE",
                             timeout: 0,
+                            headers:
+                            {
+                                "RequestVerificationToken": token
+                            },
                             error: (xhr, ajaxOptions, thrownError) => {
+                                let message = ''
+                                if (typeof xhr.responseText === "string" && xhr.responseText.trim().length === 0) {
+                                    if (xhr.status === 404 || xhr.status === 400)
+                                        message = 'Something went wrong...'
+                                }
                                 if (xhr.status == 404) {
-                                    console.log(xhr)
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'Error',
-                                        text: xhr.responseText,
+                                        text: message,
                                         showConfirmButton: false,
                                         timer: 3000,
                                     }).then(() => {
@@ -228,7 +267,7 @@
                                     })
                                 }
                                 else {
-                                    window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
+                                    window.location = `/error?statusCode=${xhr.status}&message=${message}`;
                                 }
                             }
                         })

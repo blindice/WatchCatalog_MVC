@@ -10,10 +10,13 @@ namespace WatchCatalog_MVC.ViewModels
         public string Image { get; set; } = null!;
 
         [StringLength(100)]
+        [Required(ErrorMessage = "Watch name field is required.")]
         public string WatchName { get; set; } = null!;
         [StringLength(200)]
+        [Required(ErrorMessage = "Short Description field is required.")]
         public string Short_description { get; set; } = null!;
         [StringLength(600)]
+        [Required(ErrorMessage = "Full Description field is required.")]
         public string Full_Description { get; set; } = null!;
         [Column(TypeName = "decimal(13, 2)")]
         [Range(1.0, double.MaxValue, ErrorMessage = "Price must be atleast ฿1")]

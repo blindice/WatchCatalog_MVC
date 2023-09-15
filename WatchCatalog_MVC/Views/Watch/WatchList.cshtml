@@ -32,11 +32,11 @@
 
 
                 <!-- Single item -->
-                <div class="carousel-item" onclick="HandleCarouselClick('carbon')">
+                <div class="carousel-item" onclick="HandleCarouselClick('titanium')">
                     <img src="~/images/carbon_carousel.jpg" class="d-block w-100" style="object-fit: cover; object-position: center; overflow: hidden;height:50vh;"
                          alt="Carbon Case Watches" />
                     <div class="carousel-caption d-none d-md-block">
-                        <p style="font-size: 3.5vh; font-weight: 700; transform: translate(30vw, -30vh)">Carbon Case Watches</p>
+                        <p style="font-size: 3.5vh; font-weight: 700; transform: translate(30vw, -30vh)">Titanium Case Watches</p>
                     </div>
                 </div>
 
@@ -51,11 +51,11 @@
                 </div>
 
                 <!-- Single item -->
-                <div class="carousel-item" onclick="HandleCarouselClick('round')">
+                <div class="carousel-item" onclick="HandleCarouselClick('quartz')">
                     <img src="~/images/round_carousel.jpg" class="d-block w-100" style="object-fit: cover; object-position: center; overflow: hidden;height:50vh;"
                          alt="Diamond Jewel Watches" />
                     <div class="carousel-caption d-none d-md-block">
-                        <p style="font-size: 3.5vh; font-weight: 700; transform: translate(29vw, -25vh)">Round Chronograph Watches</p>
+                        <p style="font-size: 3.5vh; font-weight: 700; transform: translate(29vw, -25vh)">Quartz Caliber Watches</p>
                     </div>
                 </div>
             </div>
@@ -76,9 +76,13 @@
     <partial name="_WatchList" />
     <partial name="_Modal" />
     <partial name="_BackToTopButton" />
+    @Html.AntiForgeryToken()
 </div>
 @section Scripts{
     <script>
+        //forgery validation token
+        let token = $('input[name="__RequestVerificationToken"]').val();
+
         createWatchListPartialScript('@Model')
 
         let HandleCarouselClick = async (searchString) => {
@@ -119,6 +123,10 @@
                     mimeType: "multipart/form-data",
                     contentType: false,
                     data: form,
+                    headers:
+                    {
+                        "RequestVerificationToken": token
+                    },
                     beforeSend: () => {
                         submitBtn.attr("disabled", "disabled")
                         submitBtn.text(" Loading...")
@@ -149,6 +157,19 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: xhr.responseText,
+                                showConfirmButton: false,
+                                timer: 3000,
+                            }).then(() => {
+                                submitBtn.removeAttr("disabled")
+                                submitBtn.text(submitBtnBeforeText)
+                            })
+                        }
+                        else if (xhr.status == 422) {
+                            console.log(xhr)
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: "Input all Fields!",
                                 showConfirmButton: false,
                                 timer: 3000,
                             }).then(() => {

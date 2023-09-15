@@ -125,7 +125,7 @@
                 <div class="col-auto">
                     <div class="input-group">
                         <span class="input-group-text">฿</span>
-                        <input type="number" class="form-control form-control-sm " asp-for="Price">
+                        <input type="number" class="form-control form-control-sm " asp-for="Price" placeholder="Must be atleast ฿1">
                     </div>
                     <span asp-validation-for="Price" class="text-danger error-message"></span>
                 </div>
@@ -233,7 +233,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Weight">
+                        <input type="number" class="form-control form-control-sm " asp-for="Weight" placeholder="Must be between 1g and 1kg">
                         <span class="input-group-text">g</span>
                     </div>
                     <span asp-validation-for="Weight" class="text-danger error-message"></span>
@@ -245,7 +245,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Height">
+                        <input type="number" class="form-control form-control-sm " asp-for="Height" placeholder="Must be between 1mm and 50mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Height" class="text-danger error-message"></span>
@@ -257,7 +257,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Diameter">
+                        <input type="number" class="form-control form-control-sm " asp-for="Diameter" placeholder="Must be between 1mm and 50mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Diameter" class="text-danger error-message"></span>
@@ -269,7 +269,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Thickness">
+                        <input type="number" class="form-control form-control-sm " asp-for="Thickness" placeholder="Must be between 1mm and 20mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Thickness" class="text-danger error-message"></span>

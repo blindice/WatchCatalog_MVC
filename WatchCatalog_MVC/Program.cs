@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using WatchCatalog_MVC.Filters;
 using WatchCatalog_MVC.Interfaces;
 using WatchCatalog_MVC.Services;
@@ -17,6 +18,10 @@ builder.Services.AddHttpClient("WatchClient", config =>
 });
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddMvc( builder => builder.Filters.Add(new GlobalExceptionFilter()));
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 var app = builder.Build();
  

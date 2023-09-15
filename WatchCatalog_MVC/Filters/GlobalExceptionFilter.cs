@@ -21,6 +21,10 @@ namespace WatchCatalog_MVC.Filters
             {
                 if (context.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
                 {
+                    if(string.IsNullOrEmpty(message) && (statusCode == 400 || statusCode == 404))
+                    {
+                        message = "Something went wrong...";
+                    }
                     context.Result = statusCode switch
                     {
                         404 => new NotFoundObjectResult(message),

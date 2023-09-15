@@ -26,7 +26,10 @@
             $('#partialModal .modal-body form').off()
             $("#partialModal .modal-body").html(res)
             $('input[type="number"]')
-                .focus(function () { $(this).val('') })
+                .focus(function () {
+                    if ($(this).val().length <= 1 && $(this).val() == 0)
+                    $(this).val('')
+                })
                 .blur(function () {
                     if ($(this).val() == '')
                         $(this).val(0)
@@ -51,7 +54,13 @@
             $('#partialModal').modal('show');
         },
         error: (xhr, ajaxOptions, thrownError) => {
-            window.location = `/error?statusCode=${xhr.status}&message=${xhr.responseText}`;
+            let message = ''
+            if (typeof xhr.responseText === "string" && xhr.responseText.trim().length === 0) {
+                if (xhr.status === 404 || xhr.status === 400)
+                    message = 'Something went wrong...'
+            }
+
+            window.location = `/error?statusCode=${xhr.status}&message=${message}`;
         }
     })
 }
@@ -95,6 +104,19 @@ let createWatchLists = async (pageNumber = 1, pageSize = 10) => {
                 $("#watchesContainer").empty()
                 $(".pagination").empty()
                 $("#watchesContainer").html('<video autoplay loop muted playsinline src="/videos/empty-data.mp4" style="height: 50%; align-self: center; margin: auto"></video>')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No Watch Found',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
             }
             else {
                 $.each(res.watchDTOs, (key, value) => {
