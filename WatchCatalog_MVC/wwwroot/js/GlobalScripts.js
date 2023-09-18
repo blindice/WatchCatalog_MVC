@@ -41,12 +41,22 @@
                 $('#partialModal .modal-body form').unbind();
                 submitBtn.unbind();
             })
+
+            $('#partialModal .modal-body form #imageViewer').click(() => {
+                $('#partialModal .modal-body form #imageFile').trigger("click");
+            }).css('cursor', 'pointer')
+
             $('#partialModal .modal-body form #imageFile').change((e) => {
                 var uploadimg = new FileReader();
                 uploadimg.onload = function (displayimg) {
                     $("#partialModal .modal-body form #imageViewer").attr('src', displayimg.target.result);
                 }
                 uploadimg.readAsDataURL(e.target.files[0]);
+            })
+
+            $('#partialModal .modal-body form #btnRemoveImage').click(() => {
+                $('#partialModal .modal-body form #imageFile').val(null)
+                $("#partialModal .modal-body form #imageViewer").attr('src', '/images/imagetemplate.png');
             })
 
             control.removeAttr("disabled")

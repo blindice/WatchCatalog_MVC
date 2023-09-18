@@ -102,6 +102,7 @@
             <input type="file" class="form-control form-control-sm" id="imageFile" data-max-file-size="3MB"
                    data-max-files="3"
                    accept="image/png, image/jpeg, image/gif">
+            <button class="btn btn-outline-danger btn-sm" type="button" id="btnRemoveImage">Remove</button>
         </div>
     </div>
 
@@ -233,7 +234,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Weight" placeholder="Must be between 1g and 1kg">
+                        <input type="number" class="form-control form-control-sm " asp-for="Weight" placeholder="Must be between 1g and 300g">
                         <span class="input-group-text">g</span>
                     </div>
                     <span asp-validation-for="Weight" class="text-danger error-message"></span>

@@ -26,7 +26,7 @@ namespace WatchCatalog_MVC.ViewModels
         [StringLength(30)]
         public string Caliber { get; set; } = null!;
         [Column(TypeName = "decimal(8, 2)")]
-        [Range(1.0, 1000, ErrorMessage = "Weight must be between 1g and 1kg")]
+        [Range(1.0, 300, ErrorMessage = "Weight must be between 1g and 300g")]
         public decimal Weight { get; set; }
         [Column(TypeName = "decimal(8, 2)")]
         [Range(1.0, 50, ErrorMessage = "Height must be between 1mm and 50mm")]
