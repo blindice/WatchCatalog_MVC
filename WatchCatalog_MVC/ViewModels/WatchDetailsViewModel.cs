@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using WatchCatalog_MVC.Helpers;
 
 namespace WatchCatalog_MVC.ViewModels
 {
@@ -8,6 +9,10 @@ namespace WatchCatalog_MVC.ViewModels
         public int WatchId { get; set; }
 
         public string Image { get; set; } = null!;
+
+        [MaxFileSize(5 * 1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
+        public IFormFile? ImageFile { get; set; }
 
         [StringLength(100)]
         [Required(ErrorMessage = "Watch name field is required.")]
@@ -35,7 +40,7 @@ namespace WatchCatalog_MVC.ViewModels
         [Range(1.0, 50, ErrorMessage = "Diameter must be between 1mm and 50mm")]
         public decimal Diameter { get; set; }
         [Column(TypeName = "decimal(8, 2)")]
-        [Range(1.0, 20, ErrorMessage = "Height must be between 1mm and 20mm")]
+        [Range(1.0, 20, ErrorMessage = "Thickness must be between 1mm and 20mm")]
         public decimal Thickness { get; set; }
         [StringLength(30)]
         public string Jewel { get; set; } = null!;

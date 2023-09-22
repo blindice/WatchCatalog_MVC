@@ -2,15 +2,16 @@
     const beforeControlText = control.text();
     const submitBtn = $("#btnSubmitModal")
 
-    submitBtn.click(function () {
+    const handleSubmitForm = function () {
         if ($("#partialModal .modal-body form").valid()) {
             $("#partialModal .modal-body form").submit()
         }
         else {
             return false
         }
-    })
+    }
 
+    submitBtn.click(handleSubmitForm)
 
     await $.ajax({
         type: 'POST',
@@ -34,7 +35,7 @@
                     if ($(this).val() == '')
                         $(this).val(0)
                 });
-            $('#partialModal .modal-body form').data('validator', null);
+            $('#partialModal .modal-body form').data('validator', null);           
             $.validator.unobtrusive.parse('#partialModal .modal-body form');
             $('#partialModal .modal-body form').on("submit", params.submitFn)
             $('#partialModal').on('hide.bs.modal', () => {
@@ -46,17 +47,32 @@
                 $('#partialModal .modal-body form #imageFile').trigger("click");
             }).css('cursor', 'pointer')
 
-            $('#partialModal .modal-body form #imageFile').change((e) => {
-                var uploadimg = new FileReader();
-                uploadimg.onload = function (displayimg) {
-                    $("#partialModal .modal-body form #imageViewer").attr('src', displayimg.target.result);
-                }
-                uploadimg.readAsDataURL(e.target.files[0]);
-            })
 
-            $('#partialModal .modal-body form #btnRemoveImage').click(() => {
-                $('#partialModal .modal-body form #imageFile').val(null)
-                $("#partialModal .modal-body form #imageViewer").attr('src', '/images/imagetemplate.png');
+            $('#partialModal .modal-body form #imageFile').change(function (e) {              
+                let fileTypes = ['jpg', 'jpeg', 'png'];
+                if (e.target.files && e.target.files[0]) {
+                    let extension = e.target.files[0].name.split('.').pop().toLowerCase() //file name extension
+                    let size = e.target.files[0].size //file size
+                    let isSuccess = fileTypes.indexOf(extension) > -1 && size <= 5242880;  //is extension in acceptable types
+                    console.log(size)
+                    if (isSuccess) { //yes
+                        var reader = new FileReader();
+                        reader.onload = function (read) {
+                            $("#partialModal .modal-body form #imageViewer").attr('src', read.target.result);
+                        }
+
+                        reader.readAsDataURL(e.target.files[0]);
+
+                        submitBtn.off()
+                        submitBtn.click(handleSubmitForm)
+                        $(".image-error-message").hide();
+                    }
+                    else { //no
+                        submitBtn.off()
+                        $(this).addClass('input-validation-error')
+                        $(".image-error-message").show();
+                    }
+                }
             })
 
             control.removeAttr("disabled")
@@ -147,9 +163,7 @@ let createWatchLists = async (pageNumber = 1, pageSize = 10) => {
                         card.click(() => {
                             window.location.href = `/Watch/Details/${value.watchId}`
                         })
-
-                        //if (key < 5 && pageNumber === 1)
-                        //    newTag.text("NEW").css({ "z-index": "1", "color": "white", "background": "#dc3545", "position": "absolute", "top": "0", "right": "0.5vw", "font-size": ".9vh", "font-weight": "700", "border-radius": ".2vh", "padding": "0 .5vw" })
+                     
 
                         imgContainer.append(image, newTag)
                         cardBody.append(cardTitle, cardDesc, cardText, cardRate)
