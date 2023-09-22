@@ -62,15 +62,18 @@
                         }
 
                         reader.readAsDataURL(e.target.files[0]);
-
-                        submitBtn.off()
-                        submitBtn.click(handleSubmitForm)
-                        $(".image-error-message").hide();
                     }
                     else { //no
-                        submitBtn.off()
-                        $(this).addClass('input-validation-error')
-                        $(".image-error-message").show();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid Image File',
+                            text: 'Only accepts .jpg, .jpeg, and .png files. Max size is 5MB.',
+                            showConfirmButton: false,
+                            timer: 5000,
+                        }).then(() => {
+                            $(this).val('')
+                        })
+
                     }
                 }
             })
