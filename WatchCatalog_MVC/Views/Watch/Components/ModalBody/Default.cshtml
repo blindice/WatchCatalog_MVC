@@ -47,7 +47,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        row-gap: 5.5vh
+        row-gap: 3.5vh
     }
 
     .image-container {
@@ -80,7 +80,7 @@
 </style>
 
 @{
-    var titleOperation = Model.WatchId == 0 ? "Create New Watch" : $"Edit Watch";
+    var titleOperation = Model.WatchId == 0 ? "Create New Watch" : "Edit Watch";
 }
 
 <p style="position: absolute; top: 5vh; left: 5vw; font-size: 3.5vh; font-weight: 700;  font-family: 'Nunito', sans-serif">@titleOperation</p>
@@ -98,12 +98,13 @@
                 }
             </div>
         </div>
-        <div class="input-group mb-3" style="width: 75%">
-            <input type="file" class="form-control form-control-sm" id="imageFile" data-max-file-size="3MB"
-                   data-max-files="3"
-                   accept="image/png, image/jpeg, image/gif">
-            <button class="btn btn-outline-danger btn-sm" type="button" id="btnRemoveImage">Remove</button>
+        <div class="input-group mb-3" style="width: 75%; display:flex; flex-direction: column">
+            <p style="font-size: 1.3vh; font-weight: 700; color: gray;margin: 0;">Only accepts jpg, jpeg and png files. Max 5MB.</p>
+            <input type="file" class="form-control form-control-sm image-upload" id="imageFile" data-max-file-size="5MB"
+                   data-max-files="1"
+                   accept="image/png, image/jpeg,  image/jpg" asp-for="ImageFile" style="width: 100%">
         </div>
+
     </div>
 
     <div class="input-container" style="width: 70%; display: flex; flex-direction: column; row-gap: 1vh">
@@ -194,8 +195,8 @@
                         <option value="Leather">Leather</option>
                         <option value="Mesh">Mesh</option>
                         <option value="Nylon Banding">Nylon Banding</option>
-                        <option value="Polyurethane Rubber">Polyurethane Rubber</option>                                              
-                        <option value="Silicone">Silicone</option>   
+                        <option value="Polyurethane Rubber">Polyurethane Rubber</option>
+                        <option value="Silicone">Silicone</option>
                         <option value="Stainless Steel">Stainless Steel</option>
                         <option value="Titanium">Titanium</option>
                     </select>
@@ -234,7 +235,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Weight" placeholder="Must be between 1g and 300g">
+                        <input type="number" class="form-control form-control-sm " asp-for="Weight" placeholder="1g to 300g">
                         <span class="input-group-text">g</span>
                     </div>
                     <span asp-validation-for="Weight" class="text-danger error-message"></span>
@@ -246,7 +247,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Height" placeholder="Must be between 1mm and 50mm">
+                        <input type="number" class="form-control form-control-sm " asp-for="Height" placeholder="1mm to 50mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Height" class="text-danger error-message"></span>
@@ -258,7 +259,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Diameter" placeholder="Must be between 1mm and 50mm">
+                        <input type="number" class="form-control form-control-sm " asp-for="Diameter" placeholder="1mm to 50mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Diameter" class="text-danger error-message"></span>
@@ -270,7 +271,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="number" class="form-control form-control-sm " asp-for="Thickness" placeholder="Must be between 1mm and 20mm">
+                        <input type="number" class="form-control form-control-sm " asp-for="Thickness" placeholder="1mm to 20mm">
                         <span class="input-group-text">mm</span>
                     </div>
                     <span asp-validation-for="Thickness" class="text-danger error-message"></span>

@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using WatchCatalog_MVC.Helpers;
 
 namespace WatchCatalog_MVC.DTOs
 {
     public class AddWatchDTO
     {
+        [MaxFileSize(5 * 1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         public IFormFile? Image { get; set; }
         [StringLength(100)]
         [Required(ErrorMessage = "Watch name field is required.")]
